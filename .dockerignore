@@ -1,0 +1,10 @@
+.git
+.gitignore
+.DS_Store
+*.html.txt
+Dockerfile
+docker-compose.yml
+render.yaml
+README.md
+.vscode
+.idea

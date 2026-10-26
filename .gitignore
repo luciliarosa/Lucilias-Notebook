@@ -1,0 +1,14 @@
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor e IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Quarentena e logs
+*.html.txt
+*.log

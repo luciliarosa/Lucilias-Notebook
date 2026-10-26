@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  lucilias-notebook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lucilias-notebook:latest
+    container_name: lucilias_notebook_app
+    ports:
+      - "8080:80"
+    environment:
+      - PORT=80
+    restart: unless-stopped
