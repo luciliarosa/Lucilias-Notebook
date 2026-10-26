@@ -1406,7 +1406,1026 @@
         align-self: flex-start;
       }
     }
-  </style>
+  
+
+/* ========================================================
+   CADERNOS VIRTUAIS EM TONS PASTEL (ESTANTE & LEITOR)
+   ======================================================== */
+
+:root {
+  /* Paleta Pastel Suave */
+  --pastel-blue-bg: #e0f2fe;
+  --pastel-blue-border: #93c5fd;
+  --pastel-blue-spine: #3b82f6;
+
+  --pastel-pink-bg: #fce7f3;
+  --pastel-pink-border: #f472b6;
+  --pastel-pink-spine: #ec4899;
+
+  --pastel-green-bg: #dcfce7;
+  --pastel-green-border: #86efac;
+  --pastel-green-spine: #22c55e;
+
+  --pastel-purple-bg: #ede9fe;
+  --pastel-purple-border: #c4b5fd;
+  --pastel-purple-spine: #8b5cf6;
+
+  --pastel-yellow-bg: #fef3c7;
+  --pastel-yellow-border: #fcd34d;
+  --pastel-yellow-spine: #f59e0b;
+
+  --pastel-cyan-bg: #ecfeff;
+  --pastel-cyan-border: #67e8f9;
+  --pastel-cyan-spine: #06b6d4;
+}
+
+/* Estante de Cadernos Virtuais */
+.notebooks-shelf-section {
+  margin-top: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.shelf-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shelf-hint {
+  font-size: 13.5px;
+  color: var(--ink3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notebooks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 32px;
+  perspective: 1200px;
+}
+
+/* O CADERNO VIRTUAL FECHADO (CAPA PASTEL) */
+.virtual-book {
+  position: relative;
+  background: transparent;
+  border-radius: 16px 20px 20px 16px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: transform 0.35s cubic-bezier(0.34, 1.35, 0.64, 1), box-shadow 0.35s ease;
+}
+
+.virtual-book:hover {
+  transform: translateY(-10px) rotateX(4deg) rotateY(-2deg);
+}
+
+.virtual-book:focus-visible {
+  outline: 3px solid var(--accent2);
+  outline-offset: 4px;
+}
+
+.book-cover {
+  position: relative;
+  border-radius: 14px 20px 20px 14px;
+  padding: 24px 20px 20px 36px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 
+    -6px 6px 12px rgba(28, 25, 23, 0.08),
+    0 16px 32px rgba(28, 25, 23, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset -1px 0 2px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.virtual-book:hover .book-cover {
+  box-shadow: 
+    -8px 10px 20px rgba(28, 25, 23, 0.12),
+    0 24px 44px rgba(28, 25, 23, 0.18),
+    inset 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* Espiral / Lombada Realista */
+.book-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.18) 0%, rgba(255,255,255,0.4) 30%, rgba(0,0,0,0.08) 70%, rgba(0,0,0,0.2) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 14px 0;
+  z-index: 5;
+  border-right: 1px solid rgba(0,0,0,0.08);
+}
+
+.spine-wire {
+  width: 15px;
+  height: 6px;
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Fita Marcadora de Cetim */
+.book-ribbon {
+  position: absolute;
+  top: -2px;
+  right: 26px;
+  width: 18px;
+  height: 52px;
+  z-index: 4;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: height 0.25s ease;
+}
+
+.virtual-book:hover .book-ribbon {
+  height: 60px;
+}
+
+/* Abas Divisórias na Lateral */
+.book-tabs {
+  position: absolute;
+  top: 36px;
+  right: -3px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  z-index: 2;
+}
+
+.book-tab-item {
+  width: 8px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0 3px 3px 0;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Cores Pastéis Específicas de Cada Caderno */
+.pastel-python .book-cover {
+  background: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 60%, #93c5fd 100%);
+  border-color: #7dd3fc;
+}
+.pastel-python .book-ribbon { background: #3b82f6; }
+
+.pastel-frontend .book-cover {
+  background: linear-gradient(145deg, #fce7f3 0%, #fbcfe8 60%, #f9a8d4 100%);
+  border-color: #f472b6;
+}
+.pastel-frontend .book-ribbon { background: #ec4899; }
+
+.pastel-banco .book-cover {
+  background: linear-gradient(145deg, #dcfce7 0%, #bbf7d0 60%, #86efac 100%);
+  border-color: #4ade80;
+}
+.pastel-banco .book-ribbon { background: #16a34a; }
+
+.pastel-devops .book-cover {
+  background: linear-gradient(145deg, #ede9fe 0%, #ddd6fe 60%, #c4b5fd 100%);
+  border-color: #a78bfa;
+}
+.pastel-devops .book-ribbon { background: #8b5cf6; }
+
+.pastel-logica .book-cover {
+  background: linear-gradient(145deg, #fef3c7 0%, #fde68a 60%, #fcd34d 100%);
+  border-color: #fbbf24;
+}
+.pastel-logica .book-ribbon { background: #d97706; }
+
+.pastel-languages .book-cover {
+  background: linear-gradient(145deg, #ecfeff 0%, #cffafe 60%, #a5f3fc 100%);
+  border-color: #67e8f9;
+}
+.pastel-languages .book-ribbon { background: #0284c7; }
+
+/* Etiqueta Frontal de Caderno (Papel Pautado Creme) */
+.book-label {
+  background: #fffdf9;
+  border-radius: 12px;
+  padding: 20px 18px;
+  border: 1.5px solid rgba(28, 25, 23, 0.12);
+  box-shadow: 
+    0 4px 12px rgba(28, 25, 23, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 24px,
+    rgba(28, 25, 23, 0.035) 24px,
+    rgba(28, 25, 23, 0.035) 25px
+  );
+}
+
+.book-label::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(28, 25, 23, 0.2);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.label-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.label-category-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: rgba(28, 25, 23, 0.06);
+  color: var(--ink2);
+}
+
+.label-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.label-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1917;
+  line-height: 1.25;
+  margin-top: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.label-subtitle {
+  font-size: 12.5px;
+  color: #57534e;
+  line-height: 1.5;
+  position: relative;
+  z-index: 2;
+}
+
+.label-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(28, 25, 23, 0.08);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink2);
+  position: relative;
+  z-index: 2;
+}
+
+/* Rodapé do Caderno Fechado */
+.book-footer {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+  z-index: 3;
+}
+
+.btn-open-book {
+  background: #ffffff;
+  color: var(--ink);
+  border: 1.5px solid rgba(28, 25, 23, 0.12);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.virtual-book:hover .btn-open-book {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: var(--ink);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.book-tag-count {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink3);
+}
+
+/* ========================================================
+   MODAL DO CADERNO ABERTO (DUAS PÁGINAS COM MENU & LEITOR)
+   ======================================================== */
+
+.reader-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+.reader-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.reader-book-container {
+  width: 100%;
+  max-width: 1240px;
+  height: 90vh;
+  background: #faf7f2;
+  border-radius: 18px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.97) translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.reader-modal-overlay.active .reader-book-container {
+  transform: scale(1) translateY(0);
+}
+
+/* Topbar do Leitor */
+.reader-topbar {
+  background: #ede8df;
+  border-bottom: 1.5px solid var(--rule);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.reader-title-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reader-book-icon {
+  font-size: 24px;
+}
+
+.reader-book-name {
+  font-family: var(--font-serif);
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.reader-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-reader-action {
+  background: #ffffff;
+  border: 1.5px solid var(--rule);
+  color: var(--ink2);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-reader-action:hover {
+  background: var(--paper2);
+  border-color: var(--ink4);
+  color: var(--ink);
+}
+
+.btn-reader-close {
+  background: #ffffff;
+  border: 1.5px solid var(--rule);
+  color: #be185d;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-reader-close:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+/* Miolo: Menu/Índice à Esquerda + Espiral + Folha de Caderno à Direita */
+.reader-spread {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* LADO ESQUERDO: ÍNDICE DE AULAS */
+.reader-index-sidebar {
+  width: 340px;
+  background: #f5f0e6;
+  border-right: 1.5px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.index-sidebar-header {
+  padding: 14px 18px;
+  background: #eae4d8;
+  border-bottom: 1.5px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.index-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink2);
+}
+
+.index-total {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink3);
+}
+
+.index-lessons-list {
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.index-lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(28, 25, 23, 0.05);
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.index-lesson-item:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.index-lesson-item.active {
+  background: #ffffff;
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.index-lesson-item.active .index-item-title {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.index-item-num {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink3);
+  background: rgba(28, 25, 23, 0.06);
+  padding: 3px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.index-lesson-item.active .index-item-num {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.index-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.index-item-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.index-item-topic {
+  font-size: 11px;
+  color: var(--ink4);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.index-item-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.index-item-badge.done { background: #dcfce7; color: #166534; }
+.index-item-badge.new { background: #fce7f3; color: #9d174d; }
+
+/* ESPIRAL CENTRAL DE ENCADERNAÇÃO */
+.reader-center-spine {
+  width: 18px;
+  background: linear-gradient(90deg, #e5dfd4 0%, #d8d0c2 50%, #e5dfd4 100%);
+  border-right: 1px solid rgba(0,0,0,0.06);
+  border-left: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 10px 0;
+}
+
+.reader-spine-hole {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2a2723;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* LADO DIREITO: A FOLHA DE CADERNO COM A AULA ABERTA */
+.reader-notebook-page {
+  flex: 1;
+  background: #fffdfa;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border-left: 2.5px solid rgba(225, 29, 72, 0.4);
+}
+
+/* Barra de Navegação Interna da Folha */
+.page-sheet-header {
+  background: rgba(255, 253, 250, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 12px 24px;
+  border-bottom: 1.5px dashed rgba(28, 25, 23, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.page-sheet-title-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.page-sheet-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink3);
+  text-transform: uppercase;
+}
+
+.page-sheet-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-sheet-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-sheet-nav {
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-sheet-nav:hover:not(:disabled) {
+  background: var(--paper2);
+  border-color: var(--ink4);
+}
+
+.btn-sheet-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* O IFRAME DA AULA DENTRO DA PÁGINA DO CADERNO */
+.page-sheet-iframe-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #faf7f2;
+}
+
+.page-sheet-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Loading indicador da página */
+.page-sheet-loading {
+  position: absolute;
+  inset: 0;
+  background: #faf7f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--ink3);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+
+.page-sheet-loading.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsividade do Caderno Aberto */
+@media (max-width: 860px) {
+  .reader-book-container {
+    height: 95vh;
+  }
+  .reader-spread {
+    flex-direction: column;
+  }
+  .reader-index-sidebar {
+    width: 100%;
+    max-height: 180px;
+    border-right: none;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .reader-center-spine {
+    display: none;
+  }
+  .reader-notebook-page {
+    border-left: none;
+  }
+}
+
+
+
+/* ========================================================
+   SEPARAÇÃO POR TEMAS NO ÍNDICE & BOTÕES DE QUIZ / CONSOLE
+   ======================================================== */
+
+/* Grupo de Tema no Índice Lateral */
+.index-theme-group {
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(28, 25, 23, 0.08);
+  padding-bottom: 4px;
+}
+
+.index-theme-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Cabeçalho da Divisória de Tema (Estilo Aba de Caderno / Sanfona) */
+.index-theme-header {
+  padding: 9px 14px 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(28, 25, 23, 0.04);
+  border-left: 3px solid var(--accent2);
+  margin: 3px 8px 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.index-theme-header:hover {
+  background: rgba(28, 25, 23, 0.08);
+}
+
+.index-theme-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.index-theme-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.index-theme-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.index-theme-chevron {
+  font-size: 10px;
+  color: var(--ink3);
+  transition: transform 0.22s ease;
+  margin-left: auto;
+  margin-right: 6px;
+  user-select: none;
+}
+
+.index-theme-group.collapsed .index-theme-chevron {
+  transform: rotate(-90deg);
+}
+
+.index-theme-count {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink3);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+/* Lista de Aulas dentro do Tema */
+.index-theme-lessons {
+  display: flex;
+  flex-direction: column;
+  max-height: 2500px;
+  overflow: hidden;
+  transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  opacity: 1;
+}
+
+.index-theme-group.collapsed .index-theme-lessons {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.index-lesson-item {
+  padding: 9px 18px 9px 24px;
+}
+
+/* Barra de Ações do Índice (Expandir / Recolher Todos) */
+.index-sidebar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px 8px;
+  background: #ede7dc;
+  border-bottom: 1px solid var(--rule);
+  gap: 8px;
+}
+
+.btn-toggle-all {
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent2);
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-toggle-all:hover {
+  background: rgba(37, 99, 168, 0.1);
+  color: #1d4ed8;
+}
+
+/* SEPARADOR DE IDIOMAS (INGLÊS vs FRANCÊS) */
+.index-language-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 6px;
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  border-top: 1.5px solid rgba(28, 25, 23, 0.12);
+}
+
+.index-language-divider:first-child {
+  border-top: none;
+  padding-top: 6px;
+  margin-top: 0;
+}
+
+.index-language-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.index-language-badge.en {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.index-language-badge.fr {
+  background: #ffedd5;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+/* BOTÕES DE QUIZ E CONSOLE NO CABEÇALHO DO LEITOR */
+.reader-tools-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+}
+
+.btn-topbar-tool {
+  border: none;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-topbar-tool.btn-console {
+  background: #1e40af;
+  color: #ffffff;
+}
+
+.btn-topbar-tool.btn-console:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 3px 8px rgba(30, 64, 175, 0.35);
+}
+
+.btn-topbar-tool.btn-quiz {
+  background: #be185d;
+  color: #ffffff;
+}
+
+.btn-topbar-tool.btn-quiz:hover {
+  background: #9d174d;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 3px 8px rgba(190, 24, 93, 0.35);
+}
+
+.btn-topbar-tool.active-tool {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--accent);
+}
+
+/* Atalho de Quiz / Console no cabeçalho da folha */
+.sheet-tool-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(37, 99, 168, 0.08);
+  border: 1px solid rgba(37, 99, 168, 0.2);
+  color: var(--accent2);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.sheet-tool-badge:hover {
+  background: var(--accent2);
+  color: #ffffff;
+}
+
+</style>
 </head>
 <body>
 
@@ -1795,1075 +2814,406 @@
     <p data-i18n="search_empty">Nenhuma aula encontrada com esse termo. Tente pesquisar por outro conceito ou tecnologia! 🔎</p>
   </div>
 
-  <!-- 1. LÓGICA DE PROGRAMAÇÃO -->
-  <section id="logica" class="search-section" data-cat="logica">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>💡</span> Lógica de Programação
-        <span class="sec-badge-count">1 aula</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('logica-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('logica-track',1)" title="Próximo">›</button>
+  
+  <!-- ========================================================
+       ESTANTE DE CADERNOS VIRTUAIS (TONS PASTEL)
+       ======================================================== -->
+  <section class="notebooks-shelf-section fade-up" id="shelfSection">
+    <div class="shelf-header">
+      <div class="shelf-title">
+        <span>📚</span> Meus Cadernos de Estudo
+      </div>
+      <div class="shelf-hint">
+        <span>📖 Clique em qualquer caderno para abrir o índice de aulas</span>
       </div>
     </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="logica-track">
-        <div class="subject-card fade-up" id="card-logica" data-search="lógica programação algoritmo variável condicional repetição função pseudocódigo fluxograma ada lovelace boole turing">
-          <div class="sc-header">
-            <span class="sc-icon-badge">💡</span>
-            <a href="fundamentals/logica/luci-game.html" class="sc-game-btn">🎮 Quiz</a>
+
+    <div class="notebooks-grid" id="notebooksShelf">
+
+      <div class="virtual-book pastel-python" data-cat="python" data-nb-id="nb-python" onclick="openNotebookReader('nb-python')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-python')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
           </div>
-          <div class="sc-body">
-            <p class="sc-name">Lógica de Programação</p>
-            <p class="sc-desc">História, conceitos fundamentais, pseudocódigo, fluxograma e como se aperfeiçoar.</p>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
           </div>
-          <div class="sc-footer">
-            <span class="sc-tag logica">Lógica</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-logica',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
+
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">Backend</span>
+              <span class="label-icon">🐍</span>
+            </div>
+            <h3 class="label-title">Backend Python</h3>
+            <p class="label-subtitle">História, Fundamentos, Estruturas de Dados, POO, APIs & Frameworks</p>
+            <div class="label-stats">
+              <span>📚 20 Aulas</span>
+              <span>•</span>
+              <span>📑 5 Módulos</span>
+            </div>
+          </div>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
             </button>
-            <span class="sc-count">1 aula</span>
-          </div>
-          <div class="lessons-panel">
-            <a href="fundamentals/logica/logica-programacao.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title">Lógica de Programação — do início ao código</span>
-              <span class="ll-badge done" data-i18n="badge_done">feita</span>
-            </a>
+            <span class="book-tag-count">20 páginas</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    
+      <div class="virtual-book pastel-frontend" data-cat="frontend" data-nb-id="nb-frontend" onclick="openNotebookReader('nb-frontend')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-frontend')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+          </div>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+          </div>
 
-  <!-- 2. PYTHON -->
-  <section id="python" class="search-section" data-cat="python">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🐍</span> Python
-        <span class="sec-badge-count">20 aulas</span>
-      </span>
-      <div class="sec-actions">
-        <a href="backend/python/console.html" class="sec-action-link" title="Console Python Interativo">
-          <span>💻</span> Console Interativo
-        </a>
-        <button class="slb" onclick="scrollCarousel('py-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('py-track',1)" title="Próximo">›</button>
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">Frontend</span>
+              <span class="label-icon">🌐</span>
+            </div>
+            <h3 class="label-title">Frontend & Web</h3>
+            <p class="label-subtitle">HTML5 Semântico, CSS3 Moderno, JavaScript & React</p>
+            <div class="label-stats">
+              <span>📚 6 Aulas</span>
+              <span>•</span>
+              <span>📑 7 Módulos</span>
+            </div>
+          </div>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
+            </button>
+            <span class="book-tag-count">6 páginas</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="py-track">
+    
+      <div class="virtual-book pastel-banco" data-cat="banco" data-nb-id="nb-banco" onclick="openNotebookReader('nb-banco')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-banco')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+          </div>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+          </div>
 
-        <div class="subject-card fade-up" id="card-sobre" data-search="sobre python história linguagem guido van rossum ecossistema zen">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📜</span>
-            <a href="backend/python/historia-python/luci-game.html" class="sc-game-btn">🎮 Quiz</a>
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">Database</span>
+              <span class="label-icon">🗄️</span>
+            </div>
+            <h3 class="label-title">Banco de Dados & SQL</h3>
+            <p class="label-subtitle">Modelagem Relacional, Consultas SQL, PostgreSQL & Python DB</p>
+            <div class="label-stats">
+              <span>📚 8 Aulas</span>
+              <span>•</span>
+              <span>📑 3 Módulos</span>
+            </div>
           </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="py1_name">Sobre o Python</p>
-            <p class="sc-desc" data-i18n="py1_desc">A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-sobre',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
             </button>
-            <span class="sc-count">2 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/python/historia-python/py-historia.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title" data-i18n="py1_l1">História do Python — origem e criação</span>
-              <span class="ll-badge done" data-i18n="badge_done">feita</span>
-            </a>
-            <a href="backend/python/historia-python/py-ecossistema.html" class="lesson-link">
-              <span class="ll-num">02</span>
-              <span class="ll-title" data-i18n="py1_l2">Ecossistema, docs oficiais e Zen do Python</span>
-              <span class="ll-badge done" data-i18n="badge_done">feita</span>
-            </a>
+            <span class="book-tag-count">8 páginas</span>
           </div>
         </div>
-
-        <div class="subject-card fade-up" id="card-fundamentos" data-search="fundamentos variáveis operadores condicionais laços funções if while for python">
-          <div class="sc-header">
-            <span class="sc-icon-badge">⚙️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="py2_name">Fundamentos</p>
-            <p class="sc-desc" data-i18n="py2_desc">Variáveis, operadores, condicionais, laços e funções em Python.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-fundamentos',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">5 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/python/fundamentos/py-variaveis.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="py2_l1">Variáveis e Tipos Primitivos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/fundamentos/py-operadores.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="py2_l2">Operadores (aritméticos, relacionais, lógicos)</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/fundamentos/py-condicionais.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="py2_l3">Estruturas Condicionais (if, elif, else)</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/fundamentos/py-lacos.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="py2_l4">Laços de Repetição (for e while)</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/fundamentos/py-funcoes.html" class="lesson-link"><span class="ll-num">05</span><span class="ll-title" data-i18n="py2_l5">Funções — definindo e reutilizando código</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-estruturas" data-search="estruturas dados listas tuplas dicionários conjuntos sets python">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📦</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="py3_name">Estruturas de Dados</p>
-            <p class="sc-desc" data-i18n="py3_desc">Listas, tuplas, dicionários e conjuntos com Python.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-estruturas',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">4 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/python/estrutura-de-dados/py-listas.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="py3_l1">Listas — índices, fatiamento e métodos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/estrutura-de-dados/py-tuplas.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="py3_l2">Tuplas — imutabilidade e desempacotamento</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/estrutura-de-dados/py-dicionarios.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="py3_l3">Dicionários — chave, valor e métodos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/estrutura-de-dados/py-conjuntos.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="py3_l4">Conjuntos — sets e operações matemáticas</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-poo" data-search="orientação objetos poo classes objetos atributos métodos herança polimorfismo encapsulamento abstração">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🏛️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="py4_name">Orientação a Objetos</p>
-            <p class="sc-desc" data-i18n="py4_desc">Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-poo',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">5 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/python/orientacao-a-objetos/historia-poo.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="py4_l1">História da POO — origem e criadores</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/orientacao-a-objetos/poo-conceitos.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="py4_l2">Classes, Objetos, Atributos e Pilares</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/orientacao-a-objetos/criando-classes-objetos.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="py4_l3">Criando Classes e Objetos na Prática</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/orientacao-a-objetos/poo-conta-bancaria.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="py4_l4">Melhorando Classes e Criando uma Conta Bancária</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/python/orientacao-a-objetos/rich-python.html" class="lesson-link"><span class="ll-num">05</span><span class="ll-title" data-i18n="py4_l5">Rich Python</span><span class="ll-badge new" data-i18n="badge_new">nova</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-bibliotecas" data-search="bibliotecas python flask django requests numpy pandas pillow biblioteca framework web api rest">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📚</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="py5_name">Bibliotecas &amp; Frameworks</p>
-            <p class="sc-desc" data-i18n="py5_desc">Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-bibliotecas',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">4 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/python/bibliotecas/py-venv.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title">Ambiente Virtual (venv)</span><span class="ll-badge new" data-i18n="badge_new">nova</span></a>
-            <a href="backend/python/bibliotecas/flask.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title">Flask — criando APIs e aplicações web</span><span class="ll-badge new" data-i18n="badge_new">nova</span></a>
-            <a href="backend/python/bibliotecas/django.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title">Django — framework completo para web</span><span class="ll-badge new" data-i18n="badge_new">nova</span></a>
-            <a href="backend/python/bibliotecas/py-bibliotecas.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title">Bibliotecas diversas (Requests, Pandas)</span><span class="ll-badge new" data-i18n="badge_new">nova</span></a>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
-
-  <!-- 3. HTML & CSS -->
-  <section id="htmlcss" class="search-section" data-cat="frontend">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🎨</span> HTML &amp; CSS
-        <span class="sec-badge-count">4 aulas</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('html-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('html-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="html-track">
-
-        <div class="subject-card fade-up" id="card-html" data-search="html história tags semântica estrutura elementos formulários">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🌐</span>
+    
+      <div class="virtual-book pastel-devops" data-cat="devops" data-nb-id="nb-devops" onclick="openNotebookReader('nb-devops')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-devops')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
           </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="html1_name">HTML</p>
-            <p class="sc-desc" data-i18n="html1_desc">A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.</p>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
           </div>
-          <div class="sc-footer">
-            <span class="sc-tag html">HTML</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-html',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
+
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">DevOps</span>
+              <span class="label-icon">🐙</span>
+            </div>
+            <h3 class="label-title">DevOps & Git</h3>
+            <p class="label-subtitle">Controle de Versão, Commits, Branches, Merge & Fluxos GitHub</p>
+            <div class="label-stats">
+              <span>📚 5 Aulas</span>
+              <span>•</span>
+              <span>📑 1 Módulos</span>
+            </div>
+          </div>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
             </button>
-            <span class="sc-count">2 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="frontend/html-css/html/html-historia.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="html1_l1">História do HTML — origem e evolução</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="frontend/html-css/html/html-conceitos.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="html1_l2">Conceitos de HTML — tags, semântica e estrutura</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <span class="book-tag-count">5 páginas</span>
           </div>
         </div>
+      </div>
+    
+      <div class="virtual-book pastel-logica" data-cat="logica" data-nb-id="nb-logica" onclick="openNotebookReader('nb-logica')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-logica')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+          </div>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+          </div>
 
-        <div class="subject-card fade-up" id="card-css" data-search="css história seletores box model flexbox grid responsividade layout estilo">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🎨</span>
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">Fundamentos</span>
+              <span class="label-icon">💡</span>
+            </div>
+            <h3 class="label-title">Lógica & Algoritmos</h3>
+            <p class="label-subtitle">Algoritmos, Pseudocódigo, Fluxogramas & Raciocínio Computacional</p>
+            <div class="label-stats">
+              <span>📚 1 Aulas</span>
+              <span>•</span>
+              <span>📑 1 Módulos</span>
+            </div>
           </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="css1_name">CSS</p>
-            <p class="sc-desc" data-i18n="css1_desc">A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag css">CSS</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-css',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
             </button>
-            <span class="sc-count">2 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="frontend/html-css/css/css-historia.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="css1_l1">História do CSS — Håkon Wium Lie e a origem</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="frontend/html-css/css/css-conceitos.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="css1_l2">Conceitos de CSS — seletores, Box Model e layout</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <span class="book-tag-count">1 páginas</span>
           </div>
         </div>
-
       </div>
-    </div>
-  </section>
-
-  <!-- 4. JAVASCRIPT -->
-  <section id="javascript" class="search-section" data-cat="frontend">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>⚡</span> JavaScript
-        <span class="sec-badge-count">1 aula</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('js-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('js-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="js-track">
-
-        <div class="subject-card fade-up" id="card-jsbasico" data-search="javascript js básico dom eventos variáveis funções browser história netscape brendan eich">
-          <div class="sc-header">
-            <span class="sc-icon-badge">⚡</span>
+    
+      <div class="virtual-book pastel-languages" data-cat="languages" data-nb-id="nb-languages" onclick="openNotebookReader('nb-languages')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openNotebookReader('nb-languages')">
+        <div class="book-cover">
+          <div class="book-spine">
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
+            <span class="spine-wire"></span>
           </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="js1_name">JS Básico</p>
-            <p class="sc-desc" data-i18n="js1_desc">DOM, eventos, variáveis e funções no browser.</p>
+          <div class="book-ribbon"></div>
+          <div class="book-tabs">
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
+            <span class="book-tab-item"></span>
           </div>
-          <div class="sc-footer">
-            <span class="sc-tag js">JavaScript</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-jsbasico',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
+
+          <div class="book-label">
+            <div class="label-top-row">
+              <span class="label-category-tag">Languages</span>
+              <span class="label-icon">🌍</span>
+            </div>
+            <h3 class="label-title">Idiomas & Comunicação</h3>
+            <p class="label-subtitle">English Grammar, Tech Vocab, Professional Writing & Français</p>
+            <div class="label-stats">
+              <span>📚 9 Aulas</span>
+              <span>•</span>
+              <span>📑 7 Módulos</span>
+            </div>
+          </div>
+
+          <div class="book-footer">
+            <button class="btn-open-book">
+              <span>Abrir Caderno</span>
+              <span>📖</span>
             </button>
-            <span class="sc-count">1 <span data-i18n="lessons_word">aula</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="frontend/js/js_basic.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title" data-i18n="js1_l1">JavaScript — história, DOM, eventos e funções</span>
-              <span class="ll-badge done" data-i18n="badge_done">feita</span>
-            </a>
+            <span class="book-tag-count">9 páginas</span>
           </div>
         </div>
-
-        <div class="subject-card fade-up" id="card-jsmodern" data-search="javascript js moderno es6 arrow functions promises async await">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🚀</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="js2_name">JS Moderno</p>
-            <p class="sc-desc" data-i18n="js2_desc">ES6+, arrow functions, promises, async/await.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag js">JavaScript</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
       </div>
+    
     </div>
   </section>
 
-  <!-- 5. REACT -->
-  <section id="react" class="search-section" data-cat="frontend">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>⚛️</span> React
-        <span class="sec-badge-count">1 aula</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('react-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('react-track',1)" title="Próximo">›</button>
+  <!-- ========================================================
+       MODAL DE CADERNO ABERTO (MENU DE AULAS + FOLHA DE AULA)
+       ======================================================== -->
+  <div class="reader-modal-overlay" id="readerOverlay" onclick="handleReaderOverlayClick(event)" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="reader-book-container" id="readerContainer">
+      <!-- Topbar do Caderno Aberto -->
+      <div class="reader-topbar">
+        <div class="reader-title-box">
+          <span class="reader-book-icon" id="readerIcon">📓</span>
+          <div>
+            <div class="reader-book-name" id="readerTitle">Caderno Virtual</div>
+          </div>
+        </div>
+        <div class="reader-actions">
+        <!-- Botões de Quiz e Console Interativos -->
+        <div class="reader-tools-group" id="readerToolsGroup">
+          <!-- Injetado dinamicamente via JS se o caderno/tema tiver Quiz ou Console -->
+        </div>
+          <a href="#" id="readerFullscreenBtn" target="_blank" rel="noopener" class="btn-reader-action" title="Abrir esta aula em tela cheia">
+            <span>Abrir em Nova Aba</span>
+            <span>↗</span>
+          </a>
+          <button class="btn-reader-close" onclick="closeNotebookReader()" title="Fechar Caderno (ESC)">
+            <span>Fechar</span>
+            <span>✕</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Miolo: Índice à Esquerda + Espiral + Folha da Aula à Direita -->
+      <div class="reader-spread">
+        <!-- Lado Esquerdo: Menu / Índice de Aulas -->
+        <aside class="reader-index-sidebar">
+          <div class="index-sidebar-header">
+            <span class="index-title">📑 Índice de Aulas</span>
+            <span class="index-total" id="readerLessonsTotal">0 aulas</span>
+          </div>
+          <div class="index-sidebar-actions">
+            <button class="btn-toggle-all" onclick="toggleAllThemes(true)" title="Abrir todas as pastas de temas">▾ Expandir Todos</button>
+            <button class="btn-toggle-all" onclick="toggleAllThemes(false)" title="Fechar todas as pastas de temas">▸ Recolher Todos</button>
+          </div>
+          <div class="index-lessons-list" id="readerLessonsList">
+            <!-- Aulas injetadas dinamicamente -->
+          </div>
+        </aside>
+
+        <!-- Espiral Central -->
+        <div class="reader-center-spine">
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+          <span class="reader-spine-hole"></span>
+        </div>
+
+        <!-- Lado Direito: Folha do Caderno com a Aula -->
+        <main class="reader-notebook-page">
+          <div class="page-sheet-header">
+            <div class="page-sheet-title-wrap">
+              <span class="page-sheet-meta" id="sheetMeta">MÓDULO: FUNDAMENTOS</span>
+              <h2 class="page-sheet-title" id="sheetTitle">Título da Aula</h2>
+            </div>
+            <div class="page-sheet-nav-controls">
+              <button class="btn-sheet-nav" id="btnPrevLesson" onclick="navigateLesson(-1)">
+                <span>←</span>
+                <span>Anterior</span>
+              </button>
+              <span id="sheetCounter" style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink3);">1 / 20</span>
+              <button class="btn-sheet-nav" id="btnNextLesson" onclick="navigateLesson(1)">
+                <span>Próxima</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="page-sheet-iframe-wrap">
+            <div class="page-sheet-loading" id="sheetLoading">
+              <span>Carregando anotações do caderno... ✍️</span>
+            </div>
+            <iframe class="page-sheet-iframe" id="sheetIframe" src="about:blank" title="Conteúdo da aula"></iframe>
+          </div>
+        </main>
       </div>
     </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="react-track">
-
-        <div class="subject-card fade-up" id="card-react-intro" data-search="react história origem facebook meta jordan walke biblioteca interface ui componentes virtual dom jsx">
-          <div class="sc-header">
-            <span class="sc-icon-badge">⚛️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Introdução ao React</p>
-            <p class="sc-desc">O que é React, como surgiu, por que usar e os conceitos essenciais: componentes, JSX e Virtual DOM.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag react">React</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-react-intro',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">1 aula</span>
-          </div>
-          <div class="lessons-panel">
-            <a href="frontend/react/react-intro.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title">Introdução ao React — história, JSX e componentes</span>
-              <span class="ll-badge new" data-i18n="badge_new">nova</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-react-hooks" data-search="react hooks useState useEffect componentes estado ciclo de vida">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🪝</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">React Hooks</p>
-            <p class="sc-desc">useState, useEffect e outros hooks para gerenciar estado e efeitos nos componentes.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag react">React</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-react-props" data-search="react props propriedades componentes comunicação pai filho">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🔄</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Props &amp; Comunicação</p>
-            <p class="sc-desc">Como passar dados entre componentes com props e entender o fluxo de dados no React.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag react">React</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. GIT -->
-  <section id="git" class="search-section" data-cat="devops">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🐙</span> Git &amp; GitHub
-        <span class="sec-badge-count">5 aulas</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('git-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('git-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="git-track">
-
-        <div class="subject-card fade-up" id="card-git" data-search="git github commits branches merge rebase pull request controle versão">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🐙</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="git1_name">Controle de Versão</p>
-            <p class="sc-desc" data-i18n="git1_desc">Commits, branches, merge, pull requests e GitHub.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag git">Git</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-git',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">5 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="devops/git/controle-de-versao/git-intro.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="git1_l1">Introdução — controle de versão e as 3 áreas</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="devops/git/controle-de-versao/git-commits.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="git1_l2">Commits — staging, histórico e como desfazer</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="devops/git/controle-de-versao/git-branches.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="git1_l3">Branches — criando e navegando entre elas</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="devops/git/controle-de-versao/git-merge.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="git1_l4">Merge, Rebase e resolução de conflitos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="devops/git/controle-de-versao/git-github.html" class="lesson-link"><span class="ll-num">05</span><span class="ll-title" data-i18n="git1_l5">GitHub, push/pull e Pull Requests</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. BANCO DE DADOS -->
-  <section id="banco" class="search-section" data-cat="banco">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🗄️</span> <span data-i18n="sec_db">Banco de Dados</span>
-        <span class="sec-badge-count">8 aulas</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('db-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('db-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="db-track">
-
-        <div class="subject-card fade-up" id="card-sql" data-search="sql banco dados select insert update delete joins modelagem pk fk relacionamentos normalização">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🗄️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">SQL</p>
-            <p class="sc-desc" data-i18n="db1_desc">SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag db">SQL</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-sql',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">4 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/bd/sql/sql-select.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="sql1_l1">SELECT — consultas, filtros e agregações</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/bd/sql/sql-insert-update-delete.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="sql1_l2">INSERT, UPDATE e DELETE — manipulando dados</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/bd/sql/sql-joins.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="sql1_l3">JOINs — unindo tabelas</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/bd/sql/sql-modelagem.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="sql1_l4">Modelagem — PK, FK, relacionamentos e normalização</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-postgresql" data-search="postgresql postgres banco dados relacional história como funciona projetos elephant">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🐘</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">PostgreSQL</p>
-            <p class="sc-desc" data-i18n="pg1_desc">História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag pg">PostgreSQL</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-postgresql',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">3 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/bd/postgreSQL/postgresql-historia.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="pg1_l1">PostgreSQL — História</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/bd/postgreSQL/postgresql-como-funciona.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="pg1_l2">PostgreSQL — Como Funciona</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="backend/bd/postgreSQL/postgresql-projetos.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="pg1_l3">PostgreSQL — Projetos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-py-bd" data-search="python banco dados psycopg2 sqlalchemy orm crud insert select update delete conexão postgresql">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🔌</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Python + PostgreSQL</p>
-            <p class="sc-desc">Conectando Python ao banco com psycopg2 e SQLAlchemy — CRUD completo e mini projeto.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag py">Python</span>
-            <span class="sc-tag pg">BD</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-py-bd',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">1 aula</span>
-          </div>
-          <div class="lessons-panel">
-            <a href="backend/bd/python-banco-de-dados.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title">Python + PostgreSQL — conexão, CRUD e ORM</span>
-              <span class="ll-badge new" data-i18n="badge_new">nova</span>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. ENGLISH -->
-  <section id="english" class="search-section" data-cat="languages">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🇬🇧</span> English
-        <span class="sec-badge-count">8 aulas</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('en-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('en-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="en-track">
-
-        <div class="subject-card fade-up" id="card-en-grammar" data-search="english grammar gramática artigos pronomes tempos verbais preposições verbos">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📖</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="en1_name">English Grammar</p>
-            <p class="sc-desc" data-i18n="en1_desc">Artigos, Pronomes, Tempos Verbais, Preposições e Verbos.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag en">English</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-en-grammar',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">5 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="languages/english/grammar/preposicoes.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="en1_l4">Preposições</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="languages/english/grammar/tempos-verbais.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="en1_l3">Tempos Verbais</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="languages/english/grammar/artigos.html" class="lesson-link"><span class="ll-num">03</span><span class="ll-title" data-i18n="en1_l1">Artigos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="languages/english/grammar/pronomes.html" class="lesson-link"><span class="ll-num">04</span><span class="ll-title" data-i18n="en1_l2">Pronomes</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="languages/english/grammar/verbos.html" class="lesson-link"><span class="ll-num">05</span><span class="ll-title" data-i18n="en1_l5">Verbos Regulares e Irregulares</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-en-vocab" data-search="english vocabulary vocabulário tecnologia viagens travel tech programming">
-          <div class="sc-header">
-            <span class="sc-icon-badge">💬</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="en2_name">English Vocabulary</p>
-            <p class="sc-desc" data-i18n="en2_desc">Vocabulário temático — tecnologia, viagens e muito mais.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag en">English</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-en-vocab',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">2 <span data-i18n="lessons_word">aulas</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="languages/english/vocabulary/tech-vocab.html" class="lesson-link"><span class="ll-num">01</span><span class="ll-title" data-i18n="en2_l1">Tech &amp; Programming</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="languages/english/vocabulary/travel-vocab.html" class="lesson-link"><span class="ll-num">02</span><span class="ll-title" data-i18n="en2_l2">Travel &amp; Transport</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-en-reading" data-search="english reading leitura interpretação textos">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📑</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="en3_name">Reading in English</p>
-            <p class="sc-desc" data-i18n="en3_desc">Leitura e interpretação de textos em inglês.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag en">English</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-en-writing" data-search="english writing redação emails essays escrita formal">
-          <div class="sc-header">
-            <span class="sc-icon-badge">✍️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name" data-i18n="en4_name">Writing in English</p>
-            <p class="sc-desc" data-i18n="en4_desc">Redação, e-mails, essays e escrita formal em inglês.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag en">English</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-en-writing',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">1 <span data-i18n="lessons_word">aula</span></span>
-          </div>
-          <div class="lessons-panel">
-            <a href="languages/english/writing/writing.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title">Writing in English — structure and composition</span>
-              <span class="ll-badge new" data-i18n="badge_new">nova</span>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. FRANÇAIS -->
-  <section id="frances" class="search-section" data-cat="languages">
-    <div class="sec-header">
-      <span class="sec-label">
-        <span>🇫🇷</span> Français
-        <span class="sec-badge-count">1 aula</span>
-      </span>
-      <div class="sec-actions">
-        <button class="slb" onclick="scrollCarousel('fr-track',-1)" title="Anterior">‹</button>
-        <button class="slb" onclick="scrollCarousel('fr-track',1)" title="Próximo">›</button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="subjects" id="fr-track">
-
-        <div class="subject-card fade-up" id="card-fr-intro" data-search="francês français introdução alfabeto pronúncia cumprimentos saudações básico bonjour merci">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🥐</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Premiers Pas</p>
-            <p class="sc-desc">Primeiros passos em francês — alfabeto, pronúncia, cumprimentos e frases essenciais do dia a dia.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag fr">Français</span>
-            <button class="sc-toggle-btn" onclick="toggleCard('card-fr-intro',this)">
-              <span class="sc-btn-text" data-i18n="btn_see">▼ ver aulas</span>
-              <span class="sc-arrow-icon">▼</span>
-            </button>
-            <span class="sc-count">1 aula</span>
-          </div>
-          <div class="lessons-panel">
-            <a href="languages/francais/fr-intro.html" class="lesson-link">
-              <span class="ll-num">01</span>
-              <span class="ll-title">Premiers Pas — alfabeto, pronúncia e cumprimentos</span>
-              <span class="ll-badge new" data-i18n="badge_new">nova</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-fr-grammaire" data-search="francês grammaire gramática artigos gênero número substantivos adjetivos género">
-          <div class="sc-header">
-            <span class="sc-icon-badge">📖</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Grammaire de Base</p>
-            <p class="sc-desc">Gênero e número, artigos definidos e indefinidos, substantivos e adjetivos em francês.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag fr">Français</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
-        <div class="subject-card fade-up" id="card-fr-verbes" data-search="francês verbos verbes être avoir présent indicatif conjugação">
-          <div class="sc-header">
-            <span class="sc-icon-badge">🗣️</span>
-          </div>
-          <div class="sc-body">
-            <p class="sc-name">Verbes Essentiels</p>
-            <p class="sc-desc">Os verbos être e avoir, conjugação no présent de l'indicatif e verbos do 1º grupo.</p>
-          </div>
-          <div class="sc-footer">
-            <span class="sc-tag fr">Français</span>
-            <span class="sc-count" data-i18n="coming_soon">em breve</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  </div>
 
 </main>
 
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
 
 <script>
-/* Dicionário completo de internacionalização */
-const T = {
-  pt: {
-    nav_back: "← Portfólio",
-    nav_home: "Caderno",
-    nav_db: "Banco de Dados",
-    eyebrow: "<span>✍️</span> developer notes &amp; tech journal",
-    hero_sub: "Anotações de aula organizadas por assunto. Tudo que aprendi, do jeito que entendi — baseado em cursos práticos e desafios reais de programação.",
-    stat_lessons: "Catalogadas",
-    stat_modules: "Temáticos",
-    stat_practice: "Interativos",
-    meta_local: "Aprendizado Contínuo",
-    meta_status: "Em andamento",
-    pinned_title: "Nota da Lucilia",
-    pinned_text: "Esse caderno virtual é o meu método para fixar conceitos e documentar minha evolução na tecnologia. Explore qualquer matéria, veja os resumos didáticos e teste seus conhecimentos com os quizzes interativos!",
-    banner_title: "Quer ver meu portfólio completo?",
-    banner_desc: "Projetos, experiência profissional, formação e contato da Lucilia Rosa",
-    banner_link: "Ver portfólio →",
-    cat_all: "✨ Todas as Matérias",
-    cat_db: "🗄️ Banco de Dados",
-    cat_lang: "🌍 Idiomas",
-    btn_see: "▼ ver aulas",
-    btn_hide: "▲ ocultar",
-    lessons_word: "aulas",
-    coming_soon: "em breve",
-    badge_done: "feita",
-    badge_new: "nova",
-    sec_db: "Banco de Dados",
-    search_empty: "Nenhuma aula encontrada com esse termo. Tente pesquisar por outro conceito ou tecnologia! 🔎",
-    /* Python */
-    py1_name: "Sobre o Python",
-    py1_desc: "A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.",
-    py1_l1: "História do Python — origem e criação",
-    py1_l2: "Ecossistema, docs oficiais e Zen do Python",
-    py2_name: "Fundamentos",
-    py2_desc: "Variáveis, operadores, condicionais, laços e funções em Python.",
-    py2_l1: "Variáveis e Tipos Primitivos",
-    py2_l2: "Operadores (aritméticos, relacionais, lógicos)",
-    py2_l3: "Estruturas Condicionais (if, elif, else)",
-    py2_l4: "Laços de Repetição (for e while)",
-    py2_l5: "Funções — definindo e reutilizando código",
-    py3_name: "Estruturas de Dados",
-    py3_desc: "Listas, tuplas, dicionários e conjuntos com Python.",
-    py3_l1: "Listas — índices, fatiamento e métodos",
-    py3_l2: "Tuplas — imutabilidade e desempacotamento",
-    py3_l3: "Dicionários — chave, valor e métodos",
-    py3_l4: "Conjuntos — sets e operações matemáticas",
-    py4_name: "Orientação a Objetos",
-    py4_desc: "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.",
-    py4_l1: "História da POO — origem e criadores",
-    py4_l2: "Classes, Objetos, Atributos e Pilares",
-    py4_l3: "Criando Classes e Objetos na Prática",
-    py4_l4: "Melhorando Classes e Criando uma Conta Bancária",
-    py4_l5: "Rich Python",
-    py5_name: "Bibliotecas &amp; Frameworks",
-    py5_desc: "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.",
-    /* Frontend */
-    html1_name: "HTML",
-    html1_desc: "A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.",
-    html1_l1: "História do HTML — origem e evolução",
-    html1_l2: "Conceitos de HTML — tags, semântica e estrutura",
-    css1_name: "CSS",
-    css1_desc: "A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.",
-    css1_l1: "História do CSS — Håkon Wium Lie e a origem",
-    css1_l2: "Conceitos de CSS — seletores, Box Model e layout",
-    js1_name: "JS Básico",
-    js1_desc: "DOM, eventos, variáveis e funções no browser.",
-    js1_l1: "JavaScript — história, DOM, eventos e funções",
-    js2_name: "JS Moderno",
-    js2_desc: "ES6+, arrow functions, promises, async/await.",
-    /* DevOps */
-    git1_name: "Controle de Versão",
-    git1_desc: "Commits, branches, merge, pull requests e GitHub.",
-    git1_l1: "Introdução — controle de versão e as 3 áreas",
-    git1_l2: "Commits — staging, histórico e como desfazer",
-    git1_l3: "Branches — criando e navegando entre elas",
-    git1_l4: "Merge, Rebase e resolução de conflitos",
-    git1_l5: "GitHub, push/pull e Pull Requests",
-    /* Databases */
-    db1_desc: "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.",
-    sql1_l1: "SELECT — consultas, filtros e agregações",
-    sql1_l2: "INSERT, UPDATE e DELETE — manipulando dados",
-    sql1_l3: "JOINs — unindo tabelas",
-    sql1_l4: "Modelagem — PK, FK, relacionamentos e normalização",
-    pg1_desc: "História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.",
-    pg1_l1: "PostgreSQL — História",
-    pg1_l2: "PostgreSQL — Como Funciona",
-    pg1_l3: "PostgreSQL — Projetos",
-    /* English */
-    en1_name: "English Grammar",
-    en1_desc: "Artigos, Pronomes, Tempos Verbais, Preposições e Verbos.",
-    en1_l1: "Artigos",
-    en1_l2: "Pronomes",
-    en1_l3: "Tempos Verbais",
-    en1_l4: "Preposições",
-    en1_l5: "Verbos Regulares e Irregulares",
-    en2_name: "English Vocabulary",
-    en2_desc: "Vocabulário temático — tecnologia, viagens e muito mais.",
-    en2_l1: "Tech &amp; Programming",
-    en2_l2: "Travel &amp; Transport",
-    en3_name: "Reading in English",
-    en3_desc: "Leitura e interpretação de textos em inglês.",
-    en4_name: "Writing in English",
-    en4_desc: "Redação, e-mails, essays e escrita formal em inglês."
-  },
-  en: {
-    nav_back: "← Portfolio",
-    nav_home: "Notebook",
-    nav_db: "Databases",
-    eyebrow: "<span>✍️</span> developer notes &amp; tech journal",
-    hero_sub: "Class notes neatly organized by subject. Everything I've learned, the way I understood it — based on hands-on courses and real programming challenges.",
-    stat_lessons: "Documented",
-    stat_modules: "Tracks",
-    stat_practice: "Interactive",
-    meta_local: "Continuous Learning",
-    meta_status: "Work in Progress",
-    pinned_title: "Note from Lucilia",
-    pinned_text: "This digital notebook is my method to solidify concepts and document my growth in tech. Feel free to explore any subject, read the study notes, and test your skills with interactive quizzes!",
-    banner_title: "Want to see my full portfolio?",
-    banner_desc: "Projects, professional experience, education, and contact for Lucilia Rosa",
-    banner_link: "View portfolio →",
-    cat_all: "✨ All Subjects",
-    cat_db: "🗄️ Databases",
-    cat_lang: "🌍 Languages",
-    btn_see: "▼ see lessons",
-    btn_hide: "▲ hide",
-    lessons_word: "lessons",
-    coming_soon: "coming soon",
-    badge_done: "done",
-    badge_new: "new",
-    sec_db: "Databases",
-    search_empty: "No lessons found with this term. Try searching for another concept or technology! 🔎",
-    /* Python */
-    py1_name: "About Python",
-    py1_desc: "The history of Python, creator Guido van Rossum, official docs, and the Zen of Python.",
-    py1_l1: "History of Python — origin and creation",
-    py1_l2: "Ecosystem, official docs and the Zen of Python",
-    py2_name: "Fundamentals",
-    py2_desc: "Variables, operators, conditionals, loops and functions in Python.",
-    py2_l1: "Variables and Primitive Types",
-    py2_l2: "Operators (arithmetic, relational, logical)",
-    py2_l3: "Conditional Statements (if, elif, else)",
-    py2_l4: "Loops (for and while)",
-    py2_l5: "Functions — defining and reusing code",
-    py3_name: "Data Structures",
-    py3_desc: "Lists, tuples, dictionaries and sets in Python.",
-    py3_l1: "Lists — indexing, slicing and methods",
-    py3_l2: "Tuples — immutability and unpacking",
-    py3_l3: "Dictionaries — key, value and methods",
-    py3_l4: "Sets — mathematical set operations",
-    py4_name: "Object-Oriented Programming",
-    py4_desc: "Classes, objects, attributes, methods, visibility and the 4 OOP pillars.",
-    py4_l1: "History of OOP — origin and pioneers",
-    py4_l2: "Classes, Objects, Attributes and Pillars",
-    py4_l3: "Creating Classes and Objects in Practice",
-    py4_l4: "Improving Classes & Creating a Bank Account",
-    py4_l5: "Rich Python",
-    py5_name: "Libraries &amp; Frameworks",
-    py5_desc: "Major libraries in the Python ecosystem — Flask, Django and more.",
-    /* Frontend */
-    html1_name: "HTML",
-    html1_desc: "The structural backbone of the web — history, elements, semantics and foundation.",
-    html1_l1: "History of HTML — origins and evolution",
-    html1_l2: "HTML Concepts — tags, semantics and document structure",
-    css1_name: "CSS",
-    css1_desc: "Styling the web — history, selectors, Box Model, Flexbox and responsive design.",
-    css1_l1: "History of CSS — Håkon Wium Lie and origins",
-    css1_l2: "CSS Concepts — selectors, Box Model and layout",
-    js1_name: "Basic JS",
-    js1_desc: "DOM manipulation, events, variables and browser functions.",
-    js1_l1: "JavaScript — history, DOM, events and functions",
-    js2_name: "Modern JS",
-    js2_desc: "ES6+, arrow functions, promises, async/await.",
-    /* DevOps */
-    git1_name: "Version Control",
-    git1_desc: "Commits, branches, merge, pull requests and GitHub workflow.",
-    git1_l1: "Introduction — version control and the 3 areas",
-    git1_l2: "Commits — staging, history and undoing changes",
-    git1_l3: "Branches — creating and switching between branches",
-    git1_l4: "Merge, Rebase and conflict resolution",
-    git1_l5: "GitHub, push/pull and Pull Requests",
-    /* Databases */
-    db1_desc: "SELECT, INSERT, UPDATE, DELETE, JOINs and data modeling.",
-    sql1_l1: "SELECT — queries, filters and aggregations",
-    sql1_l2: "INSERT, UPDATE and DELETE — manipulating data",
-    sql1_l3: "JOINs — joining tables",
-    sql1_l4: "Modeling — PK, FK, relationships and normalization",
-    pg1_desc: "History, architecture and hands-on projects with PostgreSQL.",
-    pg1_l1: "PostgreSQL — History",
-    pg1_l2: "PostgreSQL — How It Works",
-    pg1_l3: "PostgreSQL — Projects",
-    /* English */
-    en1_name: "English Grammar",
-    en1_desc: "Articles, Pronouns, Verb Tenses, Prepositions and Verbs.",
-    en1_l1: "Articles",
-    en1_l2: "Pronouns",
-    en1_l3: "Verb Tenses",
-    en1_l4: "Prepositions",
-    en1_l5: "Regular and Irregular Verbs",
-    en2_name: "English Vocabulary",
-    en2_desc: "Thematic vocabulary — technology, travel and everyday tech.",
-    en2_l1: "Tech &amp; Programming",
-    en2_l2: "Travel &amp; Transport",
-    en3_name: "Reading in English",
-    en3_desc: "Reading and interpreting English technical and general texts.",
-    en4_name: "Writing in English",
-    en4_desc: "Essays, emails, formal writing and composition in English."
+
+/* Barra de progresso de scroll & estilo fixo da navbar */
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const nav = document.getElementById('mainNav');
+  const progress = document.getElementById('readProgress');
+  if (nav) nav.classList.toggle('scrolled', scrollY > 20);
+  if (progress) {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+    progress.style.width = Math.min(pct, 100) + '%';
   }
-};
+  const btnTop = document.getElementById('backToTop');
+  if (btnTop) btnTop.classList.toggle('visible', scrollY > 350);
+});
 
-let lang = localStorage.getItem('nb_lang') || 'pt';
-
-function setLang(l) {
-  lang = l;
-  localStorage.setItem('nb_lang', l);
-  document.body.classList.add('lang-switching');
-  setTimeout(() => {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (T[l] && T[l][key] !== undefined) {
-        el.innerHTML = T[l][key];
-      }
-    });
-
-    document.querySelectorAll('.subject-card.open .sc-btn-text').forEach(btn => {
-      btn.textContent = T[l]['btn_hide'];
-    });
-    document.querySelectorAll('.subject-card:not(.open) .sc-btn-text').forEach(btn => {
-      btn.textContent = T[l]['btn_see'];
-    });
-
-    const si = document.getElementById('searchInput');
-    if (si) {
-      si.placeholder = si.getAttribute('data-placeholder-' + l) || si.placeholder;
-    }
-
-    document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
-    const btnPt = document.getElementById('btn-pt');
-    const btnEn = document.getElementById('btn-en');
-    if (btnPt) btnPt.classList.toggle('active', l === 'pt');
-    if (btnEn) btnEn.classList.toggle('active', l === 'en');
-    document.body.classList.remove('lang-switching');
-  }, 160);
-}
-
-if (lang === 'en') setLang('en');
-
-function toggleCard(id, btn) {
-  const card = document.getElementById(id);
-  if (!card) return;
-  const isOpen = card.classList.contains('open');
-  card.classList.toggle('open', !isOpen);
-  
-  const textSpan = btn.querySelector('.sc-btn-text') || btn;
-  textSpan.textContent = isOpen ? T[lang]['btn_see'] : T[lang]['btn_hide'];
-}
-
-function scrollCarousel(trackId, dir) {
-  const track = document.getElementById(trackId);
-  if (track) {
-    track.scrollBy({ left: dir * 305, behavior: 'smooth' });
-  }
-}
-
-/* Filtro de Categoria */
-let currentCategory = 'all';
-
-function filterCategory(cat, btn) {
-  currentCategory = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-
-  const sections = document.querySelectorAll('.search-section');
-  sections.forEach(sec => {
-    const secCat = sec.getAttribute('data-cat');
-    if (cat === 'all' || secCat === cat) {
-      sec.style.display = '';
-    } else {
-      sec.style.display = 'none';
-    }
-  });
-
-  // Se a busca tiver algo, re-executa a busca respeitando o filtro
-  const query = document.getElementById('searchInput').value;
-  if (query.trim()) {
-    handleSearch(query);
-  }
-}
-
-/* Pesquisa em tempo real */
-function handleSearch(query) {
-  const q = query.trim().toLowerCase();
-  const clearBtn = document.getElementById('searchClear');
-  if (clearBtn) clearBtn.classList.toggle('visible', q.length > 0);
-
-  const cards = document.querySelectorAll('.subject-card');
-  let totalVisible = 0;
-
-  cards.forEach(card => {
-    const parentSec = card.closest('.search-section');
-    const secMatchesCategory = currentCategory === 'all' || parentSec.getAttribute('data-cat') === currentCategory;
-
-    const allText =
-      (card.getAttribute('data-search') || '').toLowerCase() + ' ' +
-      (card.querySelector('.sc-name')?.textContent || '').toLowerCase() + ' ' +
-      (card.querySelector('.sc-desc')?.textContent || '').toLowerCase() + ' ' +
-      Array.from(card.querySelectorAll('.lesson-link .ll-title')).map(s => s.textContent.toLowerCase()).join(' ');
-
-    const matchText = q === '' || allText.includes(q);
-    const visible = secMatchesCategory && matchText;
-
-    card.classList.toggle('search-hidden', !visible);
-
-    if (visible) {
-      totalVisible++;
-      if (q.length > 1) {
-        card.classList.add('open');
-        const textSpan = card.querySelector('.sc-btn-text');
-        if (textSpan) textSpan.textContent = T[lang]['btn_hide'];
-      }
-    }
-  });
-
-  document.querySelectorAll('.search-section').forEach(sec => {
-    const secCat = sec.getAttribute('data-cat');
-    const secMatchesCategory = currentCategory === 'all' || secCat === currentCategory;
-    const hasVisibleCards = sec.querySelectorAll('.subject-card:not(.search-hidden)').length > 0;
-    
-    sec.classList.toggle('search-section-hidden', !secMatchesCategory || (!hasVisibleCards && q !== ''));
-  });
-
-  const emptyEl = document.getElementById('searchEmpty');
-  if (emptyEl) {
-    emptyEl.classList.toggle('visible', totalVisible === 0);
-  }
-}
-
-function clearSearch() {
-  const input = document.getElementById('searchInput');
-  if (input) {
-    input.value = '';
-    handleSearch('');
-    input.focus();
-  }
-}
-
-/* INTERATIVIDADE DO MENU & SUBMENUS */
 function toggleDropdown(btn) {
   const item = btn.closest('.nav-item');
   const isOpen = item.classList.contains('open');
-  
-  // Fecha outros abertos
   document.querySelectorAll('.nav-item.open').forEach(el => {
     if (el !== item) {
       el.classList.remove('open');
       el.querySelector('.nav-btn')?.setAttribute('aria-expanded', 'false');
     }
   });
-
   item.classList.toggle('open', !isOpen);
   btn.setAttribute('aria-expanded', String(!isOpen));
 }
 
-// Fechar dropdowns ao clicar fora ou teclar ESC
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.nav-item')) {
     document.querySelectorAll('.nav-item.open').forEach(el => {
@@ -2873,22 +3223,10 @@ document.addEventListener('click', (e) => {
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.nav-item.open').forEach(el => {
-      el.classList.remove('open');
-      el.querySelector('.nav-btn')?.setAttribute('aria-expanded', 'false');
-    });
-    toggleMobileMenu(false);
-  }
-});
-
-// Menu Mobile (Drawer)
 function toggleMobileMenu(forceState) {
   const drawer = document.getElementById('mobileDrawer');
   const overlay = document.getElementById('mobileDrawerOverlay');
   const btn = document.getElementById('mobileNavBtn');
-  
   const willOpen = forceState !== undefined ? forceState : !drawer.classList.contains('active');
   drawer.classList.toggle('active', willOpen);
   overlay.classList.toggle('active', willOpen);
@@ -2901,26 +3239,412 @@ function toggleMobileSection(btn) {
   sec.classList.toggle('open');
 }
 
-/* Barra de progresso de scroll & estilo fixo da navbar */
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const nav = document.getElementById('mainNav');
-  const progress = document.getElementById('readProgress');
-  
-  if (nav) {
-    nav.classList.toggle('scrolled', scrollY > 20);
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  if (input) {
+    input.value = '';
+    handleSearch('');
+    input.focus();
+  }
+}
+
+
+/* ========================================================
+   LOGICA DOS CADERNOS VIRTUAIS & LEITOR DE AULAS
+   ======================================================== */
+const NOTEBOOKS = [{"id": "nb-python", "cat": "python", "icon": "🐍", "title": "Backend Python", "tag": "Backend", "theme_class": "theme-python", "subtitle": "História, Fundamentos, Estruturas de Dados, POO, APIs & Frameworks", "color_primary": "#1e3a8a", "color_accent": "#f59e0b", "badge_text": "20 Aulas", "description": "Caderno completo cobrindo desde sintaxe essencial e tipos de dados até Orientação a Objetos avançada e criação de APIs REST com Flask e Django.", "extra_actions": [{"label": "Console Interativo", "icon": "💻", "href": "backend/python/console.html"}, {"label": "Quiz Python", "icon": "🎮", "href": "backend/python/historia-python/luci-game.html"}], "card_ids": ["card-sobre", "card-fundamentos", "card-estruturas", "card-poo", "card-bibliotecas"], "topics": [{"id": "card-sobre", "search": "sobre python história linguagem guido van rossum ecossistema zen", "icon": "📜", "name": "Sobre o Python", "desc": "A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/python/historia-python/py-historia.html", "num": "01", "title": "História do Python — origem e criação", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/historia-python/py-ecossistema.html", "num": "02", "title": "Ecossistema, docs oficiais e Zen do Python", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-fundamentos", "search": "fundamentos variáveis operadores condicionais laços funções if while for python", "icon": "⚙️", "name": "Fundamentos", "desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/python/fundamentos/py-variaveis.html", "num": "01", "title": "Variáveis e Tipos Primitivos", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/fundamentos/py-operadores.html", "num": "02", "title": "Operadores (aritméticos, relacionais, lógicos)", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/fundamentos/py-condicionais.html", "num": "03", "title": "Estruturas Condicionais (if, elif, else)", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/fundamentos/py-lacos.html", "num": "04", "title": "Laços de Repetição (for e while)", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/fundamentos/py-funcoes.html", "num": "05", "title": "Funções — definindo e reutilizando código", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-estruturas", "search": "estruturas dados listas tuplas dicionários conjuntos sets python", "icon": "📦", "name": "Estruturas de Dados", "desc": "Listas, tuplas, dicionários e conjuntos com Python.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/python/estrutura-de-dados/py-listas.html", "num": "01", "title": "Listas — índices, fatiamento e métodos", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/estrutura-de-dados/py-tuplas.html", "num": "02", "title": "Tuplas — imutabilidade e desempacotamento", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/estrutura-de-dados/py-dicionarios.html", "num": "03", "title": "Dicionários — chave, valor e métodos", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/estrutura-de-dados/py-conjuntos.html", "num": "04", "title": "Conjuntos — sets e operações matemáticas", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-poo", "search": "orientação objetos poo classes objetos atributos métodos herança polimorfismo encapsulamento abstração", "icon": "🏛️", "name": "Orientação a Objetos", "desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/python/orientacao-a-objetos/historia-poo.html", "num": "01", "title": "História da POO — origem e criadores", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/orientacao-a-objetos/poo-conceitos.html", "num": "02", "title": "Classes, Objetos, Atributos e Pilares", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/orientacao-a-objetos/criando-classes-objetos.html", "num": "03", "title": "Criando Classes e Objetos na Prática", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/orientacao-a-objetos/poo-conta-bancaria.html", "num": "04", "title": "Melhorando Classes e Criando uma Conta Bancária", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/python/orientacao-a-objetos/rich-python.html", "num": "05", "title": "Rich Python", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "card-bibliotecas", "search": "bibliotecas python flask django requests numpy pandas pillow biblioteca framework web api rest", "icon": "📚", "name": "Bibliotecas &amp; Frameworks", "desc": "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/python/bibliotecas/py-venv.html", "num": "01", "title": "Ambiente Virtual (venv)", "badge": "nova", "badge_type": "new", "time": ""}, {"href": "backend/python/bibliotecas/flask.html", "num": "02", "title": "Flask — criando APIs e aplicações web", "badge": "nova", "badge_type": "new", "time": ""}, {"href": "backend/python/bibliotecas/django.html", "num": "03", "title": "Django — framework completo para web", "badge": "nova", "badge_type": "new", "time": ""}, {"href": "backend/python/bibliotecas/py-bibliotecas.html", "num": "04", "title": "Bibliotecas diversas (Requests, Pandas)", "badge": "nova", "badge_type": "new", "time": ""}]}], "total_lessons": 20, "all_lessons": [{"nb_id": "nb-python", "topic_name": "Sobre o Python", "topic_icon": "📜", "topic_desc": "A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.", "game_href": null, "num": "01", "orig_num": "01", "title": "História do Python — origem e criação", "href": "backend/python/historia-python/py-historia.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Sobre o Python", "topic_icon": "📜", "topic_desc": "A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.", "game_href": null, "num": "02", "orig_num": "02", "title": "Ecossistema, docs oficiais e Zen do Python", "href": "backend/python/historia-python/py-ecossistema.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Fundamentos", "topic_icon": "⚙️", "topic_desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "game_href": null, "num": "03", "orig_num": "01", "title": "Variáveis e Tipos Primitivos", "href": "backend/python/fundamentos/py-variaveis.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Fundamentos", "topic_icon": "⚙️", "topic_desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "game_href": null, "num": "04", "orig_num": "02", "title": "Operadores (aritméticos, relacionais, lógicos)", "href": "backend/python/fundamentos/py-operadores.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Fundamentos", "topic_icon": "⚙️", "topic_desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "game_href": null, "num": "05", "orig_num": "03", "title": "Estruturas Condicionais (if, elif, else)", "href": "backend/python/fundamentos/py-condicionais.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Fundamentos", "topic_icon": "⚙️", "topic_desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "game_href": null, "num": "06", "orig_num": "04", "title": "Laços de Repetição (for e while)", "href": "backend/python/fundamentos/py-lacos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Fundamentos", "topic_icon": "⚙️", "topic_desc": "Variáveis, operadores, condicionais, laços e funções em Python.", "game_href": null, "num": "07", "orig_num": "05", "title": "Funções — definindo e reutilizando código", "href": "backend/python/fundamentos/py-funcoes.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Estruturas de Dados", "topic_icon": "📦", "topic_desc": "Listas, tuplas, dicionários e conjuntos com Python.", "game_href": null, "num": "08", "orig_num": "01", "title": "Listas — índices, fatiamento e métodos", "href": "backend/python/estrutura-de-dados/py-listas.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Estruturas de Dados", "topic_icon": "📦", "topic_desc": "Listas, tuplas, dicionários e conjuntos com Python.", "game_href": null, "num": "09", "orig_num": "02", "title": "Tuplas — imutabilidade e desempacotamento", "href": "backend/python/estrutura-de-dados/py-tuplas.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Estruturas de Dados", "topic_icon": "📦", "topic_desc": "Listas, tuplas, dicionários e conjuntos com Python.", "game_href": null, "num": "10", "orig_num": "03", "title": "Dicionários — chave, valor e métodos", "href": "backend/python/estrutura-de-dados/py-dicionarios.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Estruturas de Dados", "topic_icon": "📦", "topic_desc": "Listas, tuplas, dicionários e conjuntos com Python.", "game_href": null, "num": "11", "orig_num": "04", "title": "Conjuntos — sets e operações matemáticas", "href": "backend/python/estrutura-de-dados/py-conjuntos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Orientação a Objetos", "topic_icon": "🏛️", "topic_desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "game_href": null, "num": "12", "orig_num": "01", "title": "História da POO — origem e criadores", "href": "backend/python/orientacao-a-objetos/historia-poo.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Orientação a Objetos", "topic_icon": "🏛️", "topic_desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "game_href": null, "num": "13", "orig_num": "02", "title": "Classes, Objetos, Atributos e Pilares", "href": "backend/python/orientacao-a-objetos/poo-conceitos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Orientação a Objetos", "topic_icon": "🏛️", "topic_desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "game_href": null, "num": "14", "orig_num": "03", "title": "Criando Classes e Objetos na Prática", "href": "backend/python/orientacao-a-objetos/criando-classes-objetos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Orientação a Objetos", "topic_icon": "🏛️", "topic_desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "game_href": null, "num": "15", "orig_num": "04", "title": "Melhorando Classes e Criando uma Conta Bancária", "href": "backend/python/orientacao-a-objetos/poo-conta-bancaria.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-python", "topic_name": "Orientação a Objetos", "topic_icon": "🏛️", "topic_desc": "Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.", "game_href": null, "num": "16", "orig_num": "05", "title": "Rich Python", "href": "backend/python/orientacao-a-objetos/rich-python.html", "badge": "nova", "badge_type": "new", "time": ""}, {"nb_id": "nb-python", "topic_name": "Bibliotecas &amp; Frameworks", "topic_icon": "📚", "topic_desc": "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.", "game_href": null, "num": "17", "orig_num": "01", "title": "Ambiente Virtual (venv)", "href": "backend/python/bibliotecas/py-venv.html", "badge": "nova", "badge_type": "new", "time": ""}, {"nb_id": "nb-python", "topic_name": "Bibliotecas &amp; Frameworks", "topic_icon": "📚", "topic_desc": "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.", "game_href": null, "num": "18", "orig_num": "02", "title": "Flask — criando APIs e aplicações web", "href": "backend/python/bibliotecas/flask.html", "badge": "nova", "badge_type": "new", "time": ""}, {"nb_id": "nb-python", "topic_name": "Bibliotecas &amp; Frameworks", "topic_icon": "📚", "topic_desc": "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.", "game_href": null, "num": "19", "orig_num": "03", "title": "Django — framework completo para web", "href": "backend/python/bibliotecas/django.html", "badge": "nova", "badge_type": "new", "time": ""}, {"nb_id": "nb-python", "topic_name": "Bibliotecas &amp; Frameworks", "topic_icon": "📚", "topic_desc": "Principais bibliotecas do ecossistema Python — Flask, Django e muito mais.", "game_href": null, "num": "20", "orig_num": "04", "title": "Bibliotecas diversas (Requests, Pandas)", "href": "backend/python/bibliotecas/py-bibliotecas.html", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "nb-frontend", "cat": "frontend", "icon": "🌐", "title": "Frontend & Web", "tag": "Frontend", "theme_class": "theme-frontend", "subtitle": "HTML5 Semântico, CSS3 Moderno, JavaScript & React", "color_primary": "#be185d", "color_accent": "#3b82f6", "badge_text": "6 Aulas", "description": "Anotações práticas de desenvolvimento de interfaces web modernas, responsivas e interativas com foco em acessibilidade e arquitetura de componentes.", "extra_actions": [], "card_ids": ["card-html", "card-css", "card-jsbasico", "card-jsmodern", "card-react-intro", "card-react-hooks", "card-react-props"], "topics": [{"id": "card-html", "search": "html história tags semântica estrutura elementos formulários", "icon": "🌐", "name": "HTML", "desc": "A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.", "tag_class": "html", "tag_label": "HTML", "game_href": null, "game_label": null, "lessons": [{"href": "frontend/html-css/html/html-historia.html", "num": "01", "title": "História do HTML — origem e evolução", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "frontend/html-css/html/html-conceitos.html", "num": "02", "title": "Conceitos de HTML — tags, semântica e estrutura", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-css", "search": "css história seletores box model flexbox grid responsividade layout estilo", "icon": "🎨", "name": "CSS", "desc": "A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.", "tag_class": "css", "tag_label": "CSS", "game_href": null, "game_label": null, "lessons": [{"href": "frontend/html-css/css/css-historia.html", "num": "01", "title": "História do CSS — Håkon Wium Lie e a origem", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "frontend/html-css/css/css-conceitos.html", "num": "02", "title": "Conceitos de CSS — seletores, Box Model e layout", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-jsbasico", "search": "javascript js básico dom eventos variáveis funções browser história netscape brendan eich", "icon": "⚡", "name": "JavaScript", "desc": "DOM, eventos, variáveis e funções no browser.", "tag_class": "js", "tag_label": "JavaScript", "game_href": null, "game_label": null, "lessons": [{"href": "frontend/js/js_basic.html", "num": "01", "title": "JavaScript — história, DOM, eventos e funções", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-jsmodern", "search": "javascript js moderno es6 arrow functions promises async await", "icon": "🚀", "name": "JS Moderno", "desc": "ES6+, arrow functions, promises, async/await.", "tag_class": "js", "tag_label": "JavaScript", "game_href": null, "game_label": null, "lessons": []}, {"id": "card-react-intro", "search": "react história origem facebook meta jordan walke biblioteca interface ui componentes virtual dom jsx", "icon": "⚛️", "name": "React", "desc": "O que é React, como surgiu, por que usar e os conceitos essenciais: componentes, JSX e Virtual DOM.", "tag_class": "react", "tag_label": "React", "game_href": null, "game_label": null, "lessons": [{"href": "frontend/react/react-intro.html", "num": "01", "title": "Introdução ao React — história, JSX e componentes", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "card-react-hooks", "search": "react hooks useState useEffect componentes estado ciclo de vida", "icon": "🪝", "name": "React Hooks", "desc": "useState, useEffect e outros hooks para gerenciar estado e efeitos nos componentes.", "tag_class": "react", "tag_label": "React", "game_href": null, "game_label": null, "lessons": []}, {"id": "card-react-props", "search": "react props propriedades componentes comunicação pai filho", "icon": "🔄", "name": "Props &amp; Comunicação", "desc": "Como passar dados entre componentes com props e entender o fluxo de dados no React.", "tag_class": "react", "tag_label": "React", "game_href": null, "game_label": null, "lessons": []}], "total_lessons": 6, "all_lessons": [{"nb_id": "nb-frontend", "topic_name": "HTML", "topic_icon": "🌐", "topic_desc": "A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.", "game_href": null, "num": "01", "orig_num": "01", "title": "História do HTML — origem e evolução", "href": "frontend/html-css/html/html-historia.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-frontend", "topic_name": "HTML", "topic_icon": "🌐", "topic_desc": "A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.", "game_href": null, "num": "02", "orig_num": "02", "title": "Conceitos de HTML — tags, semântica e estrutura", "href": "frontend/html-css/html/html-conceitos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-frontend", "topic_name": "CSS", "topic_icon": "🎨", "topic_desc": "A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.", "game_href": null, "num": "03", "orig_num": "01", "title": "História do CSS — Håkon Wium Lie e a origem", "href": "frontend/html-css/css/css-historia.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-frontend", "topic_name": "CSS", "topic_icon": "🎨", "topic_desc": "A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.", "game_href": null, "num": "04", "orig_num": "02", "title": "Conceitos de CSS — seletores, Box Model e layout", "href": "frontend/html-css/css/css-conceitos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-frontend", "topic_name": "JS Básico", "topic_icon": "⚡", "topic_desc": "DOM, eventos, variáveis e funções no browser.", "game_href": null, "num": "05", "orig_num": "01", "title": "JavaScript — história, DOM, eventos e funções", "href": "frontend/js/js_basic.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-frontend", "topic_name": "Introdução ao React", "topic_icon": "⚛️", "topic_desc": "O que é React, como surgiu, por que usar e os conceitos essenciais: componentes, JSX e Virtual DOM.", "game_href": null, "num": "06", "orig_num": "01", "title": "Introdução ao React — história, JSX e componentes", "href": "frontend/react/react-intro.html", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "nb-banco", "cat": "banco", "icon": "🗄️", "title": "Banco de Dados & SQL", "tag": "Database", "theme_class": "theme-banco", "subtitle": "Modelagem Relacional, Consultas SQL, PostgreSQL & Python DB", "color_primary": "#047857", "color_accent": "#10b981", "badge_text": "8 Aulas", "description": "Caderno dedicado à manipulação de dados: conceitos relacionais, comandos DDL/DML, cláusulas avançadas, junções e conexão com aplicações backend.", "extra_actions": [], "card_ids": ["card-sql", "card-postgresql", "card-py-bd"], "topics": [{"id": "card-sql", "search": "sql banco dados select insert update delete joins modelagem pk fk relacionamentos normalização", "icon": "🗄️", "name": "SQL", "desc": "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.", "tag_class": "db", "tag_label": "SQL", "game_href": null, "game_label": null, "lessons": [{"href": "backend/bd/sql/sql-select.html", "num": "01", "title": "SELECT — consultas, filtros e agregações", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/bd/sql/sql-insert-update-delete.html", "num": "02", "title": "INSERT, UPDATE e DELETE — manipulando dados", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/bd/sql/sql-joins.html", "num": "03", "title": "JOINs — unindo tabelas", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/bd/sql/sql-modelagem.html", "num": "04", "title": "Modelagem — PK, FK, relacionamentos e normalização", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-postgresql", "search": "postgresql postgres banco dados relacional história como funciona projetos elephant", "icon": "🐘", "name": "PostgreSQL", "desc": "História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.", "tag_class": "pg", "tag_label": "PostgreSQL", "game_href": null, "game_label": null, "lessons": [{"href": "backend/bd/postgreSQL/postgresql-historia.html", "num": "01", "title": "PostgreSQL — História", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/bd/postgreSQL/postgresql-como-funciona.html", "num": "02", "title": "PostgreSQL — Como Funciona", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "backend/bd/postgreSQL/postgresql-projetos.html", "num": "03", "title": "PostgreSQL — Projetos", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-py-bd", "search": "python banco dados psycopg2 sqlalchemy orm crud insert select update delete conexão postgresql", "icon": "🔌", "name": "Python + PostgreSQL", "desc": "Conectando Python ao banco com psycopg2 e SQLAlchemy — CRUD completo e mini projeto.", "tag_class": "py", "tag_label": "Python", "game_href": null, "game_label": null, "lessons": [{"href": "backend/bd/python-banco-de-dados.html", "num": "01", "title": "Python + PostgreSQL — conexão, CRUD e ORM", "badge": "nova", "badge_type": "new", "time": ""}]}], "total_lessons": 8, "all_lessons": [{"nb_id": "nb-banco", "topic_name": "SQL", "topic_icon": "🗄️", "topic_desc": "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.", "game_href": null, "num": "01", "orig_num": "01", "title": "SELECT — consultas, filtros e agregações", "href": "backend/bd/sql/sql-select.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "SQL", "topic_icon": "🗄️", "topic_desc": "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.", "game_href": null, "num": "02", "orig_num": "02", "title": "INSERT, UPDATE e DELETE — manipulando dados", "href": "backend/bd/sql/sql-insert-update-delete.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "SQL", "topic_icon": "🗄️", "topic_desc": "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.", "game_href": null, "num": "03", "orig_num": "03", "title": "JOINs — unindo tabelas", "href": "backend/bd/sql/sql-joins.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "SQL", "topic_icon": "🗄️", "topic_desc": "SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.", "game_href": null, "num": "04", "orig_num": "04", "title": "Modelagem — PK, FK, relacionamentos e normalização", "href": "backend/bd/sql/sql-modelagem.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "PostgreSQL", "topic_icon": "🐘", "topic_desc": "História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.", "game_href": null, "num": "05", "orig_num": "01", "title": "PostgreSQL — História", "href": "backend/bd/postgreSQL/postgresql-historia.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "PostgreSQL", "topic_icon": "🐘", "topic_desc": "História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.", "game_href": null, "num": "06", "orig_num": "02", "title": "PostgreSQL — Como Funciona", "href": "backend/bd/postgreSQL/postgresql-como-funciona.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "PostgreSQL", "topic_icon": "🐘", "topic_desc": "História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.", "game_href": null, "num": "07", "orig_num": "03", "title": "PostgreSQL — Projetos", "href": "backend/bd/postgreSQL/postgresql-projetos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-banco", "topic_name": "Python + PostgreSQL", "topic_icon": "🔌", "topic_desc": "Conectando Python ao banco com psycopg2 e SQLAlchemy — CRUD completo e mini projeto.", "game_href": null, "num": "08", "orig_num": "01", "title": "Python + PostgreSQL — conexão, CRUD e ORM", "href": "backend/bd/python-banco-de-dados.html", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "nb-devops", "cat": "devops", "icon": "🐙", "title": "DevOps & Git", "tag": "DevOps", "theme_class": "theme-devops", "subtitle": "Controle de Versão, Commits, Branches, Merge & Fluxos GitHub", "color_primary": "#6b21a8", "color_accent": "#a855f7", "badge_text": "5 Aulas", "description": "Boas práticas de controle de versão em equipe: fluxo de trabalho com Git, resolução de conflitos, branching strategies e Pull Requests profissionais.", "extra_actions": [], "card_ids": ["card-git"], "topics": [{"id": "card-git", "search": "git github commits branches merge rebase pull request controle versão", "icon": "🐙", "name": "Controle de Versão", "desc": "Commits, branches, merge, pull requests e GitHub.", "tag_class": "git", "tag_label": "Git", "game_href": null, "game_label": null, "lessons": [{"href": "devops/git/controle-de-versao/git-intro.html", "num": "01", "title": "Introdução — controle de versão e as 3 áreas", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "devops/git/controle-de-versao/git-commits.html", "num": "02", "title": "Commits — staging, histórico e como desfazer", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "devops/git/controle-de-versao/git-branches.html", "num": "03", "title": "Branches — criando e navegando entre elas", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "devops/git/controle-de-versao/git-merge.html", "num": "04", "title": "Merge, Rebase e resolução de conflitos", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "devops/git/controle-de-versao/git-github.html", "num": "05", "title": "GitHub, push/pull e Pull Requests", "badge": "feita", "badge_type": "done", "time": ""}]}], "total_lessons": 5, "all_lessons": [{"nb_id": "nb-devops", "topic_name": "Controle de Versão", "topic_icon": "🐙", "topic_desc": "Commits, branches, merge, pull requests e GitHub.", "game_href": null, "num": "01", "orig_num": "01", "title": "Introdução — controle de versão e as 3 áreas", "href": "devops/git/controle-de-versao/git-intro.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-devops", "topic_name": "Controle de Versão", "topic_icon": "🐙", "topic_desc": "Commits, branches, merge, pull requests e GitHub.", "game_href": null, "num": "02", "orig_num": "02", "title": "Commits — staging, histórico e como desfazer", "href": "devops/git/controle-de-versao/git-commits.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-devops", "topic_name": "Controle de Versão", "topic_icon": "🐙", "topic_desc": "Commits, branches, merge, pull requests e GitHub.", "game_href": null, "num": "03", "orig_num": "03", "title": "Branches — criando e navegando entre elas", "href": "devops/git/controle-de-versao/git-branches.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-devops", "topic_name": "Controle de Versão", "topic_icon": "🐙", "topic_desc": "Commits, branches, merge, pull requests e GitHub.", "game_href": null, "num": "04", "orig_num": "04", "title": "Merge, Rebase e resolução de conflitos", "href": "devops/git/controle-de-versao/git-merge.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-devops", "topic_name": "Controle de Versão", "topic_icon": "🐙", "topic_desc": "Commits, branches, merge, pull requests e GitHub.", "game_href": null, "num": "05", "orig_num": "05", "title": "GitHub, push/pull e Pull Requests", "href": "devops/git/controle-de-versao/git-github.html", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "nb-logica", "cat": "logica", "icon": "💡", "title": "Lógica & Algoritmos", "tag": "Fundamentos", "theme_class": "theme-logica", "subtitle": "Algoritmos, Pseudocódigo, Fluxogramas & Raciocínio Computacional", "color_primary": "#b45309", "color_accent": "#f59e0b", "badge_text": "1 Aula + Quiz", "description": "A base de toda programação: resolução estruturada de problemas, tomada de decisões, laços e desafios práticos para fixação de raciocínio.", "extra_actions": [{"label": "Quiz de Lógica", "icon": "🎮", "href": "fundamentals/logica/luci-game.html"}], "card_ids": ["card-logica"], "topics": [{"id": "card-logica", "search": "lógica programação algoritmo variável condicional repetição função pseudocódigo fluxograma ada lovelace boole turing", "icon": "💡", "name": "Lógica de Programação", "desc": "História, conceitos fundamentais, pseudocódigo, fluxograma e como se aperfeiçoar.", "tag_class": "logica", "tag_label": "Lógica", "game_href": null, "game_label": null, "lessons": [{"href": "fundamentals/logica/logica-programacao.html", "num": "01", "title": "Lógica de Programação — do início ao código", "badge": "feita", "badge_type": "done", "time": ""}]}], "total_lessons": 1, "all_lessons": [{"nb_id": "nb-logica", "topic_name": "Lógica de Programação", "topic_icon": "💡", "topic_desc": "História, conceitos fundamentais, pseudocódigo, fluxograma e como se aperfeiçoar.", "game_href": null, "num": "01", "orig_num": "01", "title": "Lógica de Programação — do início ao código", "href": "fundamentals/logica/logica-programacao.html", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "nb-languages", "cat": "languages", "icon": "🌍", "title": "Idiomas & Comunicação", "tag": "Languages", "theme_class": "theme-languages", "subtitle": "English Grammar, Tech Vocab, Professional Writing & Français", "color_primary": "#1d4ed8", "color_accent": "#ef4444", "badge_text": "9 Aulas", "description": "Anotações de estudo de línguas focadas na área de tecnologia e carreira internacional: gramática aplicada, vocabulário técnico e escrita de essays.", "extra_actions": [], "card_ids": ["card-en-grammar", "card-en-vocab", "card-en-reading", "card-en-writing", "card-fr-intro", "card-fr-grammaire", "card-fr-verbes"], "topics": [{"id": "card-en-grammar", "name": "Grammar (Gramática)", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "icon": "📖", "desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "lessons": [{"href": "languages/english/grammar/preposicoes.html", "num": "01", "title": "Preposições", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "languages/english/grammar/tempos-verbais.html", "num": "02", "title": "Tempos Verbais", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "languages/english/grammar/artigos.html", "num": "03", "title": "Artigos", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "languages/english/grammar/pronomes.html", "num": "04", "title": "Pronomes", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "languages/english/grammar/verbos.html", "num": "05", "title": "Verbos Regulares e Irregulares", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-en-vocab", "name": "Vocabulary (Vocabulário)", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "icon": "💬", "desc": "Vocabulário técnico de programação, termos de tecnologia e vocabulário prático para viagens e dia a dia.", "lessons": [{"href": "languages/english/vocabulary/tech-vocab.html", "num": "01", "title": "Tech &amp; Programming", "badge": "feita", "badge_type": "done", "time": ""}, {"href": "languages/english/vocabulary/travel-vocab.html", "num": "02", "title": "Travel &amp; Transport", "badge": "feita", "badge_type": "done", "time": ""}]}, {"id": "card-en-writing", "name": "Writing & Composition (Escrita)", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "icon": "✍️", "desc": "Estrutura de textos, escrita formal e composição de essays para comunicação internacional.", "lessons": [{"href": "languages/english/writing/writing.html", "num": "01", "title": "Writing in English — structure and composition", "badge": "nova", "badge_type": "new", "time": ""}]}, {"id": "card-fr-intro", "name": "Premiers Pas (Iniciantes)", "lang_group": "fr", "lang_title": "🇫🇷 Aulas de Francês", "icon": "🥐", "desc": "Introdução à língua francesa: alfabeto, regras de pronúncia, cumprimentos e vocabulário básico.", "lessons": [{"href": "languages/francais/fr-intro.html", "num": "01", "title": "Premiers Pas — alfabeto, pronúncia e cumprimentos", "badge": "nova", "badge_type": "new", "time": ""}]}], "total_lessons": 9, "all_lessons": [{"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Grammar (Gramática)", "topic_icon": "📖", "topic_desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "game_href": null, "num": "01", "orig_num": "01", "title": "Preposições", "href": "languages/english/grammar/preposicoes.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Grammar (Gramática)", "topic_icon": "📖", "topic_desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "game_href": null, "num": "02", "orig_num": "02", "title": "Tempos Verbais", "href": "languages/english/grammar/tempos-verbais.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Grammar (Gramática)", "topic_icon": "📖", "topic_desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "game_href": null, "num": "03", "orig_num": "03", "title": "Artigos", "href": "languages/english/grammar/artigos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Grammar (Gramática)", "topic_icon": "📖", "topic_desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "game_href": null, "num": "04", "orig_num": "04", "title": "Pronomes", "href": "languages/english/grammar/pronomes.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Grammar (Gramática)", "topic_icon": "📖", "topic_desc": "Regras essenciais de gramática em inglês: preposições, tempos verbais, artigos, pronomes e verbos.", "game_href": null, "num": "05", "orig_num": "05", "title": "Verbos Regulares e Irregulares", "href": "languages/english/grammar/verbos.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Vocabulary (Vocabulário)", "topic_icon": "💬", "topic_desc": "Vocabulário técnico de programação, termos de tecnologia e vocabulário prático para viagens e dia a dia.", "game_href": null, "num": "06", "orig_num": "01", "title": "Tech &amp; Programming", "href": "languages/english/vocabulary/tech-vocab.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Vocabulary (Vocabulário)", "topic_icon": "💬", "topic_desc": "Vocabulário técnico de programação, termos de tecnologia e vocabulário prático para viagens e dia a dia.", "game_href": null, "num": "07", "orig_num": "02", "title": "Travel &amp; Transport", "href": "languages/english/vocabulary/travel-vocab.html", "badge": "feita", "badge_type": "done", "time": ""}, {"nb_id": "nb-languages", "lang_group": "en", "lang_title": "🇬🇧 Aulas de Inglês", "topic_name": "Writing & Composition (Escrita)", "topic_icon": "✍️", "topic_desc": "Estrutura de textos, escrita formal e composição de essays para comunicação internacional.", "game_href": null, "num": "08", "orig_num": "01", "title": "Writing in English — structure and composition", "href": "languages/english/writing/writing.html", "badge": "nova", "badge_type": "new", "time": ""}, {"nb_id": "nb-languages", "lang_group": "fr", "lang_title": "🇫🇷 Aulas de Francês", "topic_name": "Premiers Pas (Iniciantes)", "topic_icon": "🥐", "topic_desc": "Introdução à língua francesa: alfabeto, regras de pronúncia, cumprimentos e vocabulário básico.", "game_href": null, "num": "09", "orig_num": "01", "title": "Premiers Pas — alfabeto, pronúncia e cumprimentos", "href": "languages/francais/fr-intro.html", "badge": "nova", "badge_type": "new", "time": ""}]}];
+
+let activeNotebook = null;
+let activeLessonIndex = 0;
+
+function openNotebookReader(nbId, lessonHref = null) {
+  const nb = NOTEBOOKS.find(n => n.id === nbId);
+  if (!nb) return;
+
+  activeNotebook = nb;
+
+  if (lessonHref) {
+    const idx = nb.all_lessons.findIndex(l => l.href.includes(lessonHref));
+    activeLessonIndex = idx >= 0 ? idx : 0;
+  } else {
+    activeLessonIndex = 0;
   }
 
-  if (progress) {
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
-    progress.style.width = Math.min(pct, 100) + '%';
+  // Atualiza botões de Quiz e Console no cabeçalho
+  updateHeaderTools();
+
+  // Atualiza topbar
+  document.getElementById('readerIcon').textContent = nb.icon;
+  document.getElementById('readerTitle').textContent = 'Caderno de ' + nb.title;
+  document.getElementById('readerLessonsTotal').textContent = nb.all_lessons.length + ' aulas';
+
+  // Renderiza índice à esquerda
+  renderIndexSidebar();
+
+  // Carrega aula ativa na folha
+  loadActiveLesson();
+
+  // Abre modal
+  const overlay = document.getElementById('readerOverlay');
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNotebookReader() {
+  const overlay = document.getElementById('readerOverlay');
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function handleReaderOverlayClick(e) {
+  if (e.target.id === 'readerOverlay') {
+    closeNotebookReader();
+  }
+}
+
+// Abre diretamente o Quiz ou o Console no visualizador
+function openDirectTool(type) {
+  if (!activeNotebook) return;
+
+  let toolUrl = '';
+  let toolTitle = '';
+  let toolMeta = '';
+
+  if (type === 'console') {
+    toolUrl = 'backend/python/console.html';
+    toolTitle = '💻 Console Interativo Python';
+    toolMeta = 'FERRAMENTA PRÁTICA • AMBIENTE INTERATIVO DE CÓDIGO';
+  } else if (type === 'quiz') {
+    if (activeNotebook.id === 'nb-logica') {
+      toolUrl = 'fundamentals/logica/luci-game.html';
+      toolTitle = '🎮 Quiz Interativo de Lógica de Programação';
+      toolMeta = 'DESAFIO PRÁTICO • TESTE SEUS CONHECIMENTOS';
+    } else {
+      toolUrl = 'backend/python/historia-python/luci-game.html';
+      toolTitle = '🎮 Quiz Interativo de Python';
+      toolMeta = 'DESAFIO PRÁTICO • QUIZ DE PYTHON & HISTÓRIA';
+    }
   }
 
-  const btnTop = document.getElementById('backToTop');
-  if (btnTop) btnTop.classList.toggle('visible', scrollY > 350);
+  if (!toolUrl) return;
+
+  // Atualiza metadados da folha
+  document.getElementById('sheetMeta').textContent = toolMeta;
+  document.getElementById('sheetTitle').textContent = toolTitle;
+  document.getElementById('sheetCounter').textContent = 'Ferramenta';
+  document.getElementById('btnPrevLesson').disabled = true;
+  document.getElementById('btnNextLesson').disabled = true;
+
+  // Atualiza botão de tela cheia
+  const fsBtn = document.getElementById('readerFullscreenBtn');
+  fsBtn.href = toolUrl;
+
+  // Remove active de todas as aulas no índice
+  document.querySelectorAll('.index-lesson-item').forEach(el => el.classList.remove('active'));
+
+  // Carrega iframe
+  const iframe = document.getElementById('sheetIframe');
+  const loading = document.getElementById('sheetLoading');
+  if (loading) loading.classList.add('active');
+
+  let safetyTimer = setTimeout(() => {
+    if (loading) loading.classList.remove('active');
+  }, 400);
+
+  iframe.onload = () => {
+    clearTimeout(safetyTimer);
+    if (loading) loading.classList.remove('active');
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (doc) {
+        const nav = doc.querySelector('.nav');
+        if (nav) nav.style.display = 'none';
+        const breadcrumb = doc.querySelector('.breadcrumb');
+        if (breadcrumb) breadcrumb.style.display = 'none';
+      }
+    } catch (e) {}
+  };
+
+  iframe.src = toolUrl;
+}
+
+// Atualiza os botões de Quiz e Console no cabeçalho
+function updateHeaderTools() {
+  const toolsGroup = document.getElementById('readerToolsGroup');
+  if (!toolsGroup || !activeNotebook) return;
+
+  let toolsHtml = '';
+
+  // Caderno com Console (Python)
+  if (activeNotebook.id === 'nb-python') {
+    toolsHtml += `
+      <button class="btn-topbar-tool btn-console" onclick="openDirectTool('console')" title="Abrir Console Interativo Python na folha do caderno">
+        <span>💻</span>
+        <span>Console Python</span>
+      </button>
+    `;
+  }
+
+  // Caderno com Quiz (Python ou Lógica)
+  if (activeNotebook.id === 'nb-python' || activeNotebook.id === 'nb-logica') {
+    toolsHtml += `
+      <button class="btn-topbar-tool btn-quiz" onclick="openDirectTool('quiz')" title="Abrir Quiz Interativo na folha do caderno">
+        <span>🎮</span>
+        <span>Quiz Interativo</span>
+      </button>
+    `;
+  }
+
+  toolsGroup.innerHTML = toolsHtml;
+}
+
+// Alterna abrir/fechar um tema específico
+function toggleThemeGroup(headerEl) {
+  const group = headerEl.closest('.index-theme-group');
+  if (group) {
+    group.classList.toggle('collapsed');
+  }
+}
+
+// Expandir ou recolher todos os temas de uma vez
+function toggleAllThemes(expand) {
+  document.querySelectorAll('.index-theme-group').forEach(group => {
+    if (expand) {
+      group.classList.remove('collapsed');
+    } else {
+      group.classList.add('collapsed');
+    }
+  });
+}
+
+// Renderiza o Índice de Aulas com Acordeão e Separação de Idiomas
+function renderIndexSidebar() {
+  const listEl = document.getElementById('readerLessonsList');
+  if (!listEl || !activeNotebook) return;
+
+  let html = '';
+  let globalLessonIdx = 0;
+  let lastLangGroup = null;
+
+  activeNotebook.topics.forEach((topic, tIdx) => {
+    if (!topic.lessons || topic.lessons.length === 0) return;
+
+    // Se for o caderno de idiomas, insere o divisor de módulo (Inglês vs Francês)
+    if (activeNotebook.id === 'nb-languages' && topic.lang_group && topic.lang_group !== lastLangGroup) {
+      lastLangGroup = topic.lang_group;
+      const isEn = topic.lang_group === 'en';
+      const langBadgeClass = isEn ? 'en' : 'fr';
+      const langLabel = isEn ? '🇬🇧 Módulo de Inglês (English)' : '🇫🇷 Módulo de Francês (Français)';
+
+      html += `
+        <div class="index-language-divider">
+          <span class="index-language-badge ${langBadgeClass}">${langLabel}</span>
+        </div>
+      `;
+    }
+
+    html += `
+      <div class="index-theme-group" data-theme-idx="${tIdx}">
+        <div class="index-theme-header" onclick="toggleThemeGroup(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeGroup(this);}" role="button" tabindex="0" title="Clique para abrir ou recolher este tema">
+          <div class="index-theme-title-wrap">
+            <span class="index-theme-icon">${topic.icon}</span>
+            <span class="index-theme-name">${topic.name}</span>
+          </div>
+          <span class="index-theme-chevron">▼</span>
+          <span class="index-theme-count">${topic.lessons.length}</span>
+        </div>
+        <div class="index-theme-lessons">
+    `;
+
+    topic.lessons.forEach((lesson) => {
+      const idx = globalLessonIdx;
+      const isActive = idx === activeLessonIndex ? 'active' : '';
+      const badgeHtml = lesson.badge ? `<span class="index-item-badge ${lesson.badge_type}">${lesson.badge}</span>` : '';
+
+      html += `
+        <button class="index-lesson-item ${isActive}" data-lesson-idx="${idx}" onclick="selectLesson(${idx})" title="${lesson.title}">
+          <span class="index-item-num">${lesson.num}</span>
+          <div class="index-item-info">
+            <span class="index-item-title">${lesson.title}</span>
+          </div>
+          ${badgeHtml}
+        </button>
+      `;
+      globalLessonIdx++;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+  });
+
+  listEl.innerHTML = html;
+}
+
+// Seleciona e carrega uma aula preservando o estado de temas recolhidos
+function selectLesson(idx) {
+  if (!activeNotebook || idx < 0 || idx >= activeNotebook.all_lessons.length) return;
+  activeLessonIndex = idx;
+
+  // Atualiza classes active nos botões sem reconstruir o DOM (preserva estado do acordeão)
+  const allBtns = document.querySelectorAll('.index-lesson-item');
+  allBtns.forEach((btn) => {
+    const itemIdx = parseInt(btn.getAttribute('data-lesson-idx'), 10);
+    const isAct = itemIdx === idx;
+    btn.classList.toggle('active', isAct);
+    if (isAct) {
+      // Abre o tema da aula selecionada caso o usuário o tenha recolhido
+      const parentGroup = btn.closest('.index-theme-group');
+      if (parentGroup && parentGroup.classList.contains('collapsed')) {
+        parentGroup.classList.remove('collapsed');
+      }
+      // Rola suavemente para o item no índice se estiver fora de visão
+      btn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  });
+
+  loadActiveLesson();
+}
+
+function navigateLesson(dir) {
+  selectLesson(activeLessonIndex + dir);
+}
+
+// Carrega o conteúdo da aula selecionada na folha do caderno
+function loadActiveLesson() {
+  if (!activeNotebook || !activeNotebook.all_lessons[activeLessonIndex]) return;
+  const lesson = activeNotebook.all_lessons[activeLessonIndex];
+
+  // Identifica o tema e contagem da aula
+  const topicName = (lesson.topic_name || activeNotebook.title).toUpperCase();
+  document.getElementById('sheetMeta').textContent = `TEMA: ${topicName} • AULA ${lesson.num} DE ${activeNotebook.all_lessons.length}`;
+  document.getElementById('sheetTitle').textContent = lesson.title;
+  document.getElementById('sheetCounter').textContent = `${activeLessonIndex + 1} / ${activeNotebook.all_lessons.length}`;
+
+  // Atualiza botões anterior / próximo
+  document.getElementById('btnPrevLesson').disabled = activeLessonIndex === 0;
+  document.getElementById('btnNextLesson').disabled = activeLessonIndex === activeNotebook.all_lessons.length - 1;
+
+  // Botão abrir em nova aba
+  const fsBtn = document.getElementById('readerFullscreenBtn');
+  fsBtn.href = lesson.href;
+
+  // Carrega iframe da aula
+  const iframe = document.getElementById('sheetIframe');
+  const loading = document.getElementById('sheetLoading');
+  if (loading) loading.classList.add('active');
+
+  let safetyTimer = setTimeout(() => {
+    if (loading) loading.classList.remove('active');
+  }, 450);
+
+  iframe.onload = () => {
+    clearTimeout(safetyTimer);
+    if (loading) loading.classList.remove('active');
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (doc) {
+        const nav = doc.querySelector('.nav');
+        if (nav) nav.style.display = 'none';
+        const breadcrumb = doc.querySelector('.breadcrumb');
+        if (breadcrumb) breadcrumb.style.display = 'none';
+        const page = doc.querySelector('.page');
+        if (page) page.style.paddingTop = '1.5rem';
+      }
+    } catch (err) {}
+  };
+
+  iframe.src = lesson.href;
+}
+// Tecla ESC para fechar
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeNotebookReader();
+  }
 });
+
+// Filtro de categorias por cadernos
+window.filterCategory = function(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const books = document.querySelectorAll('.virtual-book');
+  books.forEach(b => {
+    const bCat = b.getAttribute('data-cat');
+    if (cat === 'all' || bCat === cat) {
+      b.style.display = '';
+    } else {
+      b.style.display = 'none';
+    }
+  });
+};
+
+// Busca em tempo real
+window.handleSearch = function(query) {
+  const q = query.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  if (clearBtn) clearBtn.classList.toggle('visible', q.length > 0);
+
+  const books = document.querySelectorAll('.virtual-book');
+  let visibleCount = 0;
+
+  books.forEach(book => {
+    const nbId = book.getAttribute('data-nb-id');
+    const nb = NOTEBOOKS.find(n => n.id === nbId);
+    if (!nb) return;
+
+    if (!q) {
+      book.style.display = '';
+      visibleCount++;
+      return;
+    }
+
+    const match = 
+      nb.title.toLowerCase().includes(q) ||
+      nb.subtitle.toLowerCase().includes(q) ||
+      nb.all_lessons.some(l => l.title.toLowerCase().includes(q) || l.topic_name.toLowerCase().includes(q));
+
+    book.style.display = match ? '' : 'none';
+    if (match) visibleCount++;
+  });
+
+  const emptyEl = document.getElementById('searchEmpty');
+  if (emptyEl) emptyEl.classList.toggle('visible', visibleCount === 0);
+};
+
+// Atalhos do navbar dropdown para abrir o caderno
+document.querySelectorAll('.dropdown-item, .mobile-drawer-link').forEach(link => {
+  const href = link.getAttribute('href');
+  if (href && href.startsWith('notebook.html#')) {
+    const hash = href.split('#')[1].toLowerCase();
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const map = {
+        'python': 'nb-python',
+        'frontend': 'nb-frontend',
+        'htmlcss': 'nb-frontend',
+        'javascript': 'nb-frontend',
+        'react': 'nb-frontend',
+        'banco': 'nb-banco',
+        'git': 'nb-devops',
+        'devops': 'nb-devops',
+        'logica': 'nb-logica',
+        'english': 'nb-languages',
+        'frances': 'nb-languages',
+        'idiomas': 'nb-languages'
+      };
+      if (map[hash]) {
+        openNotebookReader(map[hash]);
+      }
+      if (typeof toggleMobileMenu === 'function') toggleMobileMenu(false);
+      document.querySelectorAll('.nav-item.open').forEach(el => el.classList.remove('open'));
+    });
+  }
+});
+
 </script>
-<script src="chatbot.js"></script>
 </body>
 </html>
